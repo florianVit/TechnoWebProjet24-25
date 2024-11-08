@@ -6,21 +6,17 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AppModule = void 0;
+exports.AuthorsModule = void 0;
 const common_1 = require("@nestjs/common");
-const app_controller_1 = require("./app.controller");
-const app_service_1 = require("./app.service");
-const database_module_1 = require("./modules/database/database.module");
-const books_module_1 = require("./books/books.module");
-const authors_module_1 = require("./authors/authors.module");
-let AppModule = class AppModule {
+const authors_controller_1 = require("./authors.controller");
+const authors_service_1 = require("./authors.service");
+let AuthorsModule = class AuthorsModule {
 };
-exports.AppModule = AppModule;
-exports.AppModule = AppModule = __decorate([
+exports.AuthorsModule = AuthorsModule;
+exports.AuthorsModule = AuthorsModule = __decorate([
     (0, common_1.Module)({
-        imports: [database_module_1.DatabaseModule, books_module_1.BooksModule, authors_module_1.AuthorsModule],
-        controllers: [app_controller_1.AppController],
-        providers: [app_service_1.AppService],
+        controllers: [authors_controller_1.AuthorsController],
+        providers: [authors_service_1.AuthorsService]
     })
-], AppModule);
-//# sourceMappingURL=app.module.js.map
+], AuthorsModule);
+//# sourceMappingURL=authors.module.js.map
