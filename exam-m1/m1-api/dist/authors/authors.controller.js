@@ -14,12 +14,18 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthorsController = void 0;
 const common_1 = require("@nestjs/common");
+const authors_service_1 = require("./authors.service");
 let AuthorsController = class AuthorsController {
-    getAllAuthors() {
+    constructor(authorsService) {
+        this.authorsService = authorsService;
+    }
+    async getAllAuthors() {
+        return this.authorsService.getAllAuthors();
     }
     getAuthorById(id) {
     }
     createAuthor(createAuthorDto) {
+        this.authorsService.createAuthor(createAuthorDto);
     }
     deleteAuthor(id) {
     }
@@ -29,7 +35,7 @@ __decorate([
     (0, common_1.Get)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], AuthorsController.prototype, "getAllAuthors", null);
 __decorate([
     (0, common_1.Get)(':id'),
@@ -53,6 +59,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], AuthorsController.prototype, "deleteAuthor", null);
 exports.AuthorsController = AuthorsController = __decorate([
-    (0, common_1.Controller)('authors')
+    (0, common_1.Controller)('authors'),
+    __metadata("design:paramtypes", [authors_service_1.AuthorsService])
 ], AuthorsController);
 //# sourceMappingURL=authors.controller.js.map

@@ -8,30 +8,30 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AuthorsService = void 0;
+exports.AuthorRepository = void 0;
 const common_1 = require("@nestjs/common");
-const author_repository_1 = require("./author.repository");
+const typeorm_1 = require("typeorm");
+const typeorm_2 = require("@nestjs/typeorm");
 const author_entity_1 = require("./author.entity");
-let AuthorsService = class AuthorsService {
-    constructor(authorRepository) {
-        this.authorRepository = authorRepository;
+let AuthorRepository = class AuthorRepository {
+    constructor(repo) {
+        this.repo = repo;
     }
-    createAuthor(createAuthorDto) {
-        let author = new author_entity_1.AuthorEntity();
-        author.id = createAuthorDto.id;
-        author.photo = createAuthorDto.photo;
-        author.nbr_livres_ecrits = createAuthorDto.nbr_livres_ecrits;
-        author.moyenne_avis = createAuthorDto.moyenne_avis;
-        this.authorRepository.createAuthor(author);
+    async createAuthor(auteur) {
+        return this.repo.save(auteur);
     }
-    async getAllAuthors() {
-        return this.authorRepository.findAll();
+    async findAll() {
+        return this.repo.find();
     }
 };
-exports.AuthorsService = AuthorsService;
-exports.AuthorsService = AuthorsService = __decorate([
+exports.AuthorRepository = AuthorRepository;
+exports.AuthorRepository = AuthorRepository = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [author_repository_1.AuthorRepository])
-], AuthorsService);
-//# sourceMappingURL=authors.service.js.map
+    __param(0, (0, typeorm_2.InjectRepository)(author_entity_1.AuthorEntity)),
+    __metadata("design:paramtypes", [typeorm_1.Repository])
+], AuthorRepository);
+//# sourceMappingURL=author.repository.js.map

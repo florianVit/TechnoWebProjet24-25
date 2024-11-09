@@ -9,25 +9,28 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CreateAuthorDto = void 0;
-const class_validator_1 = require("class-validator");
-class CreateAuthorDto {
-}
-exports.CreateAuthorDto = CreateAuthorDto;
+exports.AuthorEntity = void 0;
+const typeorm_1 = require("typeorm");
+let AuthorEntity = class AuthorEntity {
+};
+exports.AuthorEntity = AuthorEntity;
 __decorate([
-    (0, class_validator_1.IsUUID)('4'),
+    (0, typeorm_1.PrimaryGeneratedColumn)('uuid'),
     __metadata("design:type", String)
-], CreateAuthorDto.prototype, "id", void 0);
+], AuthorEntity.prototype, "id", void 0);
 __decorate([
-    (0, class_validator_1.IsString)(),
+    (0, typeorm_1.Column)({ name: 'photo', type: 'varchar' }),
     __metadata("design:type", String)
-], CreateAuthorDto.prototype, "photo", void 0);
+], AuthorEntity.prototype, "photo", void 0);
 __decorate([
-    (0, class_validator_1.IsNumber)(),
+    (0, typeorm_1.Column)({ name: 'nbr_livres_ecrits', type: 'int' }),
     __metadata("design:type", Number)
-], CreateAuthorDto.prototype, "nbr_livres_ecrits", void 0);
+], AuthorEntity.prototype, "nbr_livres_ecrits", void 0);
 __decorate([
-    (0, class_validator_1.IsNumber)(),
+    (0, typeorm_1.Column)({ name: 'moyenne_avis', type: 'int' }),
     __metadata("design:type", Number)
-], CreateAuthorDto.prototype, "moyenne_avis", void 0);
-//# sourceMappingURL=create-author.dto.js.map
+], AuthorEntity.prototype, "moyenne_avis", void 0);
+exports.AuthorEntity = AuthorEntity = __decorate([
+    (0, typeorm_1.Entity)('Author')
+], AuthorEntity);
+//# sourceMappingURL=author.entity.js.map
