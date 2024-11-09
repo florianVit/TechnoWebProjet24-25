@@ -9,5 +9,5 @@ export declare class AuthorsController {
     getAuthorByName(nom: string): Promise<AuthorEntity[]>;
     createAuthor(createAuthorDto: any): void;
     deleteAuthor(id: UUID): void;
-    deleteAuthorByName(nom: string): void;
+    deleteAllAuthors(): void;
 }

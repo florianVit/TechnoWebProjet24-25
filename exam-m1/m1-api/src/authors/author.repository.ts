@@ -22,4 +22,14 @@ export class AuthorRepository {
     async findOneByName(nom: string): Promise<AuthorEntity[]> {
         return this.repo.find({ where: { nom } });
     }
+    async deleteAuthor(id: UUID): Promise<void> {
+        console.log("Id de l'auteur supprimé : ", id)
+        await this.repo.delete(id);
+    }
+    async deleteAllAuthors(): Promise<void> {
+        const authors = await this.repo.find();
+        for (const author of authors) {//Pour ne supprimer que les auteurs
+            await this.repo.delete(author.id);
+        }
+    }
 }

@@ -30,18 +30,16 @@ export class AuthorsController {
         this.authorsService.createAuthor(createAuthorDto); //On appelle la fonction createAuthor du service 
         //avec comme paramètre le createAuthorDto qui contient les infos de l'auteur à  créer
     }
-
-    @Delete('/by-id/delete/:id')//Supprimer un auteur
-    deleteAuthor(@Param('id') id: UUID) {
-        //this.authorsService.deleteAuthor(id);
-    }
-
-    @Delete('/by-name/delete/:nom')//Supprimer un auteur
-    deleteAuthorByName(@Param('nom') nom: string) {
-        //this.authorsService.deleteAuthorByName(nom);
-    }
     
-    //@Delete('/select-all/delete')//Supprimer un auteur
+    @Delete('/by-id/delete/:id')//Supprimer un auteur en fonction de son ID (on fait pas par nom au cas où 2 auteurs ont le même nom)
+    deleteAuthor(@Param('id') id: UUID) {
+        this.authorsService.deleteAuthor(id);
+    }   
+    
+    @Delete('/select-all/delete')//Supprimer un auteur
+    deleteAllAuthors() {
+        this.authorsService.deleteAllAuthors();
+    }
 
 }
 

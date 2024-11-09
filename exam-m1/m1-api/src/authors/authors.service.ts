@@ -28,4 +28,10 @@ export class AuthorsService {
     async getAuthorByName(nom: string) {
         return this.authorRepository.findOneByName(nom);
     }
+    deleteAuthor(id: UUID) {
+        this.authorRepository.deleteAuthor(id);
+    }
+    deleteAllAuthors() {
+        this.authorRepository.deleteAllAuthors();
+    }
 }

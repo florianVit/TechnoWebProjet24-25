@@ -33,6 +33,16 @@ let AuthorRepository = class AuthorRepository {
     async findOneByName(nom) {
         return this.repo.find({ where: { nom } });
     }
+    async deleteAuthor(id) {
+        console.log("Id de l'auteur supprimé : ", id);
+        await this.repo.delete(id);
+    }
+    async deleteAllAuthors() {
+        const authors = await this.repo.find();
+        for (const author of authors) {
+            await this.repo.delete(author.id);
+        }
+    }
 };
 exports.AuthorRepository = AuthorRepository;
 exports.AuthorRepository = AuthorRepository = __decorate([

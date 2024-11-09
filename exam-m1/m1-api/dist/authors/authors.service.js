@@ -35,6 +35,12 @@ let AuthorsService = class AuthorsService {
     async getAuthorByName(nom) {
         return this.authorRepository.findOneByName(nom);
     }
+    deleteAuthor(id) {
+        this.authorRepository.deleteAuthor(id);
+    }
+    deleteAllAuthors() {
+        this.authorRepository.deleteAllAuthors();
+    }
 };
 exports.AuthorsService = AuthorsService;
 exports.AuthorsService = AuthorsService = __decorate([
