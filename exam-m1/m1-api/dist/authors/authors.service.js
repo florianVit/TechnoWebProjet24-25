@@ -20,6 +20,7 @@ let AuthorsService = class AuthorsService {
     createAuthor(createAuthorDto) {
         let author = new author_entity_1.AuthorEntity();
         author.id = createAuthorDto.id;
+        author.nom = createAuthorDto.nom;
         author.photo = createAuthorDto.photo;
         author.nbr_livres_ecrits = createAuthorDto.nbr_livres_ecrits;
         author.moyenne_avis = createAuthorDto.moyenne_avis;
@@ -27,6 +28,12 @@ let AuthorsService = class AuthorsService {
     }
     async getAllAuthors() {
         return this.authorRepository.findAll();
+    }
+    async getAuthorById(id) {
+        return this.authorRepository.findOneById(id);
+    }
+    async getAuthorByName(nom) {
+        return this.authorRepository.findOneByName(nom);
     }
 };
 exports.AuthorsService = AuthorsService;

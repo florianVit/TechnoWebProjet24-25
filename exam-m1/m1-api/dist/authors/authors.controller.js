@@ -23,41 +23,61 @@ let AuthorsController = class AuthorsController {
         return this.authorsService.getAllAuthors();
     }
     getAuthorById(id) {
+        return this.authorsService.getAuthorById(id);
+    }
+    getAuthorByName(nom) {
+        return this.authorsService.getAuthorByName(nom);
     }
     createAuthor(createAuthorDto) {
         this.authorsService.createAuthor(createAuthorDto);
     }
     deleteAuthor(id) {
     }
+    deleteAuthorByName(nom) {
+    }
 };
 exports.AuthorsController = AuthorsController;
 __decorate([
-    (0, common_1.Get)(),
+    (0, common_1.Get)('/select-all/find'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], AuthorsController.prototype, "getAllAuthors", null);
 __decorate([
-    (0, common_1.Get)(':id'),
+    (0, common_1.Get)('/by-id/find/:id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], AuthorsController.prototype, "getAuthorById", null);
 __decorate([
-    (0, common_1.Post)(),
+    (0, common_1.Get)('/by-name/find/:nom'),
+    __param(0, (0, common_1.Param)('nom')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], AuthorsController.prototype, "getAuthorByName", null);
+__decorate([
+    (0, common_1.Post)('/create-author'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], AuthorsController.prototype, "createAuthor", null);
 __decorate([
-    (0, common_1.Delete)(':id'),
+    (0, common_1.Delete)('/by-id/delete/:id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], AuthorsController.prototype, "deleteAuthor", null);
+__decorate([
+    (0, common_1.Delete)('/by-name/delete/:nom'),
+    __param(0, (0, common_1.Param)('nom')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], AuthorsController.prototype, "deleteAuthorByName", null);
 exports.AuthorsController = AuthorsController = __decorate([
     (0, common_1.Controller)('authors'),
     __metadata("design:paramtypes", [authors_service_1.AuthorsService])

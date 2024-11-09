@@ -19,6 +19,10 @@ __decorate([
     __metadata("design:type", String)
 ], AuthorEntity.prototype, "id", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ name: 'nom', type: 'varchar' }),
+    __metadata("design:type", String)
+], AuthorEntity.prototype, "nom", void 0);
+__decorate([
     (0, typeorm_1.Column)({ name: 'photo', type: 'varchar' }),
     __metadata("design:type", String)
 ], AuthorEntity.prototype, "photo", void 0);

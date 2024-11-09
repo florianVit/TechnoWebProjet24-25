@@ -27,6 +27,12 @@ let AuthorRepository = class AuthorRepository {
     async findAll() {
         return this.repo.find();
     }
+    async findOneById(id) {
+        return this.repo.findOneBy({ id });
+    }
+    async findOneByName(nom) {
+        return this.repo.find({ where: { nom } });
+    }
 };
 exports.AuthorRepository = AuthorRepository;
 exports.AuthorRepository = AuthorRepository = __decorate([

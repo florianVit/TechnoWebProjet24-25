@@ -21,6 +21,10 @@ __decorate([
 __decorate([
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
+], CreateAuthorDto.prototype, "nom", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
 ], CreateAuthorDto.prototype, "photo", void 0);
 __decorate([
     (0, class_validator_1.IsNumber)(),

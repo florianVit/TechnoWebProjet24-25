@@ -6,6 +6,9 @@ export class CreateAuthorDto {
     id: UUID;
 
     @IsString()
+    nom: string;
+
+    @IsString()
     photo: string;
 
     @IsNumber()

@@ -8,6 +8,9 @@ export class AuthorEntity {
     @PrimaryGeneratedColumn('uuid')
     id: AuthorId;
 
+    @Column({ name: 'nom', type: 'varchar' })
+    nom: string;
+
     @Column({ name: 'photo', type: 'varchar' })
     photo: string;
 
