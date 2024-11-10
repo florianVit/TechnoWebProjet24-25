@@ -1,8 +1,10 @@
-'use client';
-import './App.css';
+import IndexPage from '../app/pages/index';
 
-function App() {
-  return <h1>Hello World!</h1>
+export default function Main() {
+  return (
+    <div>
+      <h1>Main Page</h1>
+      <IndexPage />
+    </div>
+  );
 }
-
-export default App;
