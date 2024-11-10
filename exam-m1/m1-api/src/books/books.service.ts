@@ -35,4 +35,16 @@ export class BooksService {
     this.books.splice(bookIndex, 1);
     return { message: `Book with ID ${id} has been removed` };
   }
+
+  //Mettre à jour un livre
+  update(id: string, createBookDto: CreateBookDto) {
+    const bookIndex = this.books.findIndex(b => b.id === id);
+    if (bookIndex === -1) {
+      throw new NotFoundException(`Book with ID ${id} not found`);
+    }
+    this.books[bookIndex] = { id, ...createBookDto };
+    return this.books[bookIndex];
+  }
+
+  
 }

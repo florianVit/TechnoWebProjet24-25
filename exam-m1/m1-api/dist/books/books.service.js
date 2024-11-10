@@ -35,6 +35,14 @@ let BooksService = class BooksService {
         this.books.splice(bookIndex, 1);
         return { message: `Book with ID ${id} has been removed` };
     }
+    update(id, createBookDto) {
+        const bookIndex = this.books.findIndex(b => b.id === id);
+        if (bookIndex === -1) {
+            throw new common_1.NotFoundException(`Book with ID ${id} not found`);
+        }
+        this.books[bookIndex] = { id, ...createBookDto };
+        return this.books[bookIndex];
+    }
 };
 exports.BooksService = BooksService;
 exports.BooksService = BooksService = __decorate([

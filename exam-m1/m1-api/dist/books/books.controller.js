@@ -31,6 +31,9 @@ let BooksController = class BooksController {
     deleteBook(id) {
         return this.booksService.remove(id);
     }
+    updateBook(id, createBookDto) {
+        return this.booksService.update(id, createBookDto);
+    }
 };
 exports.BooksController = BooksController;
 __decorate([
@@ -60,6 +63,14 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], BooksController.prototype, "deleteBook", null);
+__decorate([
+    (0, common_1.Post)(':id'),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:returntype", void 0)
+], BooksController.prototype, "updateBook", null);
 exports.BooksController = BooksController = __decorate([
     (0, common_1.Controller)('books'),
     __metadata("design:paramtypes", [books_service_1.BooksService])

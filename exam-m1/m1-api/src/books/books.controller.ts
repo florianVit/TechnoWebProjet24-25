@@ -25,4 +25,9 @@ export class BooksController {
   deleteBook(@Param('id') id: string) {
     return this.booksService.remove(id); // Appelle le service pour supprimer un livre par ID
   }
+
+  @Post(':id')//Mettre à jour un livre
+  updateBook(@Param('id') id: string, @Body() createBookDto) {
+    return this.booksService.update(id, createBookDto); // Appelle le service pour mettre à jour un livre par ID
+  }
 }
