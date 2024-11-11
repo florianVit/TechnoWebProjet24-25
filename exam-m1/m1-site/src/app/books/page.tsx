@@ -5,12 +5,14 @@ import { BookModel } from "../models/BookModel";
 import { BookCard } from "../components/BookCard";
 import { SearchBarBook } from "../components/SearchBarBook";
 import { SortBarBook } from "../components/SortBarBook";
+import { ModalCreateBook } from "../components/ModalCreateBook";
 
 export default function Books() {
   const [books, setBooks] = useState<BookModel[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [sortCriteria, setSortCriteria] = useState<string>('title');
   const [sortOrder, setSortOrder] = useState<string>('asc');
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Récupère les livres depuis l'API
   const loadBooks = () => {
@@ -58,6 +60,21 @@ export default function Books() {
     setSortOrder(event.target.value);
   };
 
+  const onCreate = (title: string, publicationDate: string, author: string) => {
+    // Création temporaires de livres en attendant l'API
+    const newBook: BookModel = {
+      id: books.length + 1,
+      title,
+      publicationDate: new Date(publicationDate).getFullYear(),
+      authorId: parseInt(author),
+      note: 0,
+      commentaire: "",
+      prix: 0,
+      description: ""
+    };
+    setBooks([...books, newBook]);
+  };
+
   // Filtre les livres en fonction du terme de recherche
   const filteredBooks = books.filter(book => 
     book.title.toLowerCase().includes(searchTerm.toLowerCase())
@@ -66,23 +83,11 @@ export default function Books() {
   // Trie les livres en fonction du critère et de l'ordre de tri
   const sortedBooks = filteredBooks.sort((a, b) => {
     if (sortCriteria === 'title') {
-      if (sortOrder === 'asc') {
-        return a.title.localeCompare(b.title);
-      } else {
-        return b.title.localeCompare(a.title);
-      }
+      return sortOrder === 'asc' ? a.title.localeCompare(b.title) : b.title.localeCompare(a.title);
     } else if (sortCriteria === 'publicationDate') {
-      if (sortOrder === 'asc') {
-        return a.publicationDate - b.publicationDate;
-      } else {
-        return b.publicationDate - a.publicationDate;
-      }
+      return sortOrder === 'asc' ? a.publicationDate - b.publicationDate : b.publicationDate - a.publicationDate;
     } else if (sortCriteria === 'note') {
-      if (sortOrder === 'asc') {
-        return a.note - b.note;
-      } else {
-        return b.note - a.note;
-      }
+      return sortOrder === 'asc' ? a.note - b.note : b.note - a.note;
     }
     return 0;
   });
@@ -90,6 +95,12 @@ export default function Books() {
   return (
     <div>
       <h2>Books Page</h2>
+      <button onClick={() => setIsModalOpen(true)}>Create New Book</button>
+      <ModalCreateBook 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        onCreate={onCreate} 
+      /><br/>
       <SearchBarBook searchTerm={searchTerm} onSearchChange={handleSearchChange} />
       <SortBarBook 
         sortCriteria={sortCriteria} 
