@@ -14,45 +14,73 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthorsController = void 0;
 const common_1 = require("@nestjs/common");
+const authors_service_1 = require("./authors.service");
 let AuthorsController = class AuthorsController {
-    getAllAuthors() {
+    constructor(authorsService) {
+        this.authorsService = authorsService;
+    }
+    async getAllAuthors() {
+        return this.authorsService.getAllAuthors();
     }
     getAuthorById(id) {
+        return this.authorsService.getAuthorById(id);
+    }
+    getAuthorByName(nom) {
+        return this.authorsService.getAuthorByName(nom);
     }
     createAuthor(createAuthorDto) {
+        this.authorsService.createAuthor(createAuthorDto);
     }
     deleteAuthor(id) {
+        this.authorsService.deleteAuthor(id);
+    }
+    deleteAllAuthors() {
+        this.authorsService.deleteAllAuthors();
     }
 };
 exports.AuthorsController = AuthorsController;
 __decorate([
-    (0, common_1.Get)(),
+    (0, common_1.Get)('/select-all/find'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], AuthorsController.prototype, "getAllAuthors", null);
 __decorate([
-    (0, common_1.Get)(':id'),
+    (0, common_1.Get)('/by-id/find/:id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], AuthorsController.prototype, "getAuthorById", null);
 __decorate([
-    (0, common_1.Post)(),
+    (0, common_1.Get)('/by-name/find/:nom'),
+    __param(0, (0, common_1.Param)('nom')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], AuthorsController.prototype, "getAuthorByName", null);
+__decorate([
+    (0, common_1.Post)('/create-author'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], AuthorsController.prototype, "createAuthor", null);
 __decorate([
-    (0, common_1.Delete)(':id'),
+    (0, common_1.Delete)('/by-id/delete/:id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], AuthorsController.prototype, "deleteAuthor", null);
+__decorate([
+    (0, common_1.Delete)('/select-all/delete'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], AuthorsController.prototype, "deleteAllAuthors", null);
 exports.AuthorsController = AuthorsController = __decorate([
-    (0, common_1.Controller)('authors')
+    (0, common_1.Controller)('authors'),
+    __metadata("design:paramtypes", [authors_service_1.AuthorsService])
 ], AuthorsController);
 //# sourceMappingURL=authors.controller.js.map
