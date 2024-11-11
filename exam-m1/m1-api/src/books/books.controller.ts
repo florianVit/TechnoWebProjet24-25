@@ -1,6 +1,8 @@
-import { Controller, Get, Post, Delete, Param, Body } from '@nestjs/common';
+import { Controller, Get, Post, Delete, Param, Body, Query } from '@nestjs/common';
 import { BooksService } from './books.service';
-import { CreateBookDto } from './dto/create-book.dto';
+import { CreateBookDto } from './dto/create-books.dto';
+import { Book } from './entities/books.entity';
+
 
 @Controller('books')
 export class BooksController {
@@ -30,4 +32,5 @@ export class BooksController {
   updateBook(@Param('id') id: string, @Body() createBookDto) {
     return this.booksService.update(id, createBookDto); // Appelle le service pour mettre à jour un livre par ID
   }
+
 }
