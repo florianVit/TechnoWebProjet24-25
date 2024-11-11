@@ -1,68 +1,48 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+import { BookRepository } from './books.repository';
+import { BookEntity } from './entities/books.entity';
 import { CreateBookDto } from './dto/create-books.dto';
-import { UpdateBookDto } from './dto/update-books.dto';
-import { Book } from './entities/books.entity';
+import { UUID } from 'crypto';
 
 @Injectable()
 export class BooksService {
-  private books = []; //base de données
+  constructor(private readonly bookRepository: BookRepository) {}
 
-  //Récupérer tous les livres
-  findAll() {
-    return this.books;
+  // Créer un nouveau livre
+  async createBook(createBookDto: Partial<BookEntity>): Promise<BookEntity> {
+    // Créez une instance de BookEntity et remplissez-la avec les données du DTO
+    const book = new BookEntity();
+    book.title = createBookDto.title;
+    book.authorId = createBookDto.authorId;
+    book.note = createBookDto.note || null; // Si note n'est pas fournie, on laisse `null`
+    book.commentaire = createBookDto.commentaire || null; // Si commentaire n'est pas fourni, on laisse `null`
+    book.prix = createBookDto.prix || null; // Si prix n'est pas fourni, on laisse `null`
+    book.description = createBookDto.description || null; // Si description n'est pas fournie, on laisse `null`
+    book.publicationDate = createBookDto.publicationDate;
 
+    return this.bookRepository.createBook(book);
   }
 
-  //Trouver un livre par ID
-  findOne(id: string) {
-    const book = this.books.find(b => b.id === id);
-    if (!book) {
-      throw new NotFoundException(`Book with ID ${id} not found`);
-    }
-    return book;
+  // Récupérer tous les livres
+  async getAllBooks(): Promise<BookEntity[]> {
+    return this.bookRepository.findAll();
   }
 
-  //Créer un livre
-  create(createBookDto: CreateBookDto) {
-    const newBook = { id: Date.now().toString(), ...createBookDto };
-    this.books.push(newBook);
-    return newBook;
+  // Récupérer un livre par ID
+  async getBookById(id: UUID): Promise<BookEntity> {
+    return this.bookRepository.findOneById(id);
   }
 
-  //Supprimer un livre
-  remove(id: string) {
-    const bookIndex = this.books.findIndex(b => b.id === id);
-    if (bookIndex === -1) {
-      throw new NotFoundException(`Book with ID ${id} not found`);
-    }
-    this.books.splice(bookIndex, 1);
-    return { message: `Book with ID ${id} has been removed` };
+  // Supprimer un livre par ID
+  async removeBook(id: UUID): Promise<void> {
+    await this.bookRepository.deleteBook(id);
   }
 
-  //Mettre à jour un livre
-  update(id: string, createBookDto: CreateBookDto) {
-    const bookIndex = this.books.findIndex(b => b.id === id);
-    if (bookIndex === -1) {
-      throw new NotFoundException(`Book with ID ${id} not found`);
-    }
-    this.books[bookIndex] = { id, ...createBookDto };
-    return this.books[bookIndex];
+  // Mettre à jour un livre par ID
+  async updateBook(id: UUID, bookData: Partial<BookEntity>): Promise<BookEntity> {
+    const book = new BookEntity();
+    Object.assign(book, bookData);
+    book.id = id;
+    return this.bookRepository.createBook(book);
   }
-
-  //Supprimer tous les livres
-  removeAll() {
-    this.books = [];
-    return { message: 'All books have been removed' };
-  }
-
-  //Trouver un livre par son titre
-  findByTitle(title: string) {
-    const book = this.books.find(b => b.title === title);
-    if (!book) {
-      throw new NotFoundException(`Book with title ${title} not found`);
-    }
-    return book;
-  }
-
-  
 }

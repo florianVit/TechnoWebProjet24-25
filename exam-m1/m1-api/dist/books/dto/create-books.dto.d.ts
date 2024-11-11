@@ -1,9 +1,9 @@
 export declare class CreateBookDto {
     title: string;
-    publicationDate: Date;
     authorId: string;
-    note: string;
+    publicationDate: string;
+    note?: number;
     commentaire?: string;
-    prix: string;
+    prix?: number;
     description: string;
 }
