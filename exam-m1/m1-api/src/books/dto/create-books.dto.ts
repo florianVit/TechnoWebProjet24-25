@@ -1,34 +1,36 @@
-import { Type } from 'class-transformer';
-import { IsString, IsNotEmpty, IsDate } from 'class-validator';
+import { IsNotEmpty, IsString, IsNumber, IsOptional, IsDateString } from 'class-validator';
+import { UUID } from "crypto";
 
 export class CreateBookDto {
-  @IsString()
+  //champs obligatoires
   @IsNotEmpty()
-  title: string;            // Titre du livre
-
-
-  @IsDate()
-  @IsNotEmpty()
-  @Type(() => Date)
-  publicationDate: Date;    // Date de publication
-  
-
   @IsString()
-  @IsNotEmpty()
-  authorId: string;         // ID de l'auteur
+  title: string;  
 
-  @IsString()
   @IsNotEmpty()
-  note: string;             //note du livre (de 1 à 5)
   @IsString()
-  commentaire?: string;     // Commentaire optionnel
+  authorId: string;
+
+  @IsNotEmpty()
+  @IsDateString()
+  publicationDate: string;
 
 
-  @IsString()
-  @IsNotEmpty()
-  prix: string;            //prix du livre
+  //champs optionnels
+  @IsOptional() 
+  @IsNumber()
+  note?: number; 
 
+  @IsOptional() 
+  @IsString()  
+  commentaire?: string;  
+
+  @IsOptional() 
+  @IsNumber()
+  prix?: number;
+
+  @IsOptional()
   @IsString()
-  @IsNotEmpty()
-  description: string;      // Description du livre
+  description: string;
+
 }

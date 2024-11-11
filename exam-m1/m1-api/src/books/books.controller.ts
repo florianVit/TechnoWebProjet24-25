@@ -1,36 +1,41 @@
-import { Controller, Get, Post, Delete, Param, Body, Query } from '@nestjs/common';
+import { Controller, Get, Post, Delete, Param, Body, Put } from '@nestjs/common';
 import { BooksService } from './books.service';
 import { CreateBookDto } from './dto/create-books.dto';
-import { Book } from './entities/books.entity';
-
+import { BookEntity } from './entities/books.entity';
+import { UUID } from 'crypto';
 
 @Controller('books')
 export class BooksController {
-    constructor(private booksService: BooksService) {}
+  constructor(private readonly booksService: BooksService) {}
 
-  @Get()//Récupérer tous les livres
-  getAllBooks() {
-    return this.booksService.findAll(); // Appelle le service pour récupérer tous les livres
+  // Récupérer tous les livres
+  @Get()
+  async getAllBooks(): Promise<BookEntity[]> {
+    return await this.booksService.getAllBooks(); // Appelle le service pour récupérer tous les livres
   }
 
-  @Get(':id')//Récupérer un livre par son ID
-  getBookById(@Param('id') id: string) {
-    return this.booksService.findOne(id); // Appelle le service pour trouver un livre par ID
+  // Récupérer un livre par son ID
+  @Get(':id')
+  async getBookById(@Param('id') id: UUID): Promise<BookEntity> {
+    return await this.booksService.getBookById(id); // Appelle le service pour trouver un livre par ID
   }
 
-  @Post()//Créer un nouveau livre
-  createBook(@Body() createBookDto) {
-    return this.booksService.create(createBookDto); // Appelle le service pour créer un livre
+  // Créer un nouveau livre
+  @Post() // Créer un livre
+  createBook(@Body() createBookDto: CreateBookDto) {
+    return this.booksService.createBook(createBookDto);
   }
 
-  @Delete(':id')//Supprimer un livre
-  deleteBook(@Param('id') id: string) {
-    return this.booksService.remove(id); // Appelle le service pour supprimer un livre par ID
+  // Supprimer un livre
+  @Delete(':id')
+  async deleteBook(@Param('id') id: UUID): Promise<{ message: string }> {
+    await this.booksService.removeBook(id); // Appelle le service pour supprimer un livre par ID
+    return { message: `Book with ID ${id} has been removed` };
   }
 
-  @Post(':id')//Mettre à jour un livre
-  updateBook(@Param('id') id: string, @Body() createBookDto) {
-    return this.booksService.update(id, createBookDto); // Appelle le service pour mettre à jour un livre par ID
+  // Mettre à jour un livre
+  @Put(':id')
+  async updateBook(@Param('id') id: UUID, @Body() createBookDto: CreateBookDto): Promise<BookEntity> {
+    return await this.booksService.updateBook(id, createBookDto); // Appelle le service pour mettre à jour un livre par ID
   }
-
 }
