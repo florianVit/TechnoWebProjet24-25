@@ -7,7 +7,8 @@ type Props = {
 
 export const BookCard: FC<Props> = ({ book }) => {
   return <div>
-    - {book.title} ({book.publicationDate}) - {book.authorId} - {book.note} - {book.commentaire} - {book.prix} - {book.description}
+    {/* ici c'est l'id de l'auteur, il faudra récupérer le nom de l'auteur plus tard */}
+    - {book.title} ({book.publicationDate}) - {book.authorId} | Note : {book.note}
     <br/>
   </div>
 }
