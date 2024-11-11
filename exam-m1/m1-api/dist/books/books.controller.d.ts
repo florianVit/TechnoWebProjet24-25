@@ -8,9 +8,14 @@ export declare class BooksController {
         title: string;
         publicationDate: Date;
         authorId: string;
+        note: string;
+        commentaire?: string;
+        prix: string;
+        description: string;
         id: string;
     };
     deleteBook(id: string): {
         message: string;
     };
+    updateBook(id: string, createBookDto: any): any;
 }

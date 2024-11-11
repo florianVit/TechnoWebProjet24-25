@@ -1,6 +1,13 @@
+import { AuthorEntity } from './author.entity';
+import { AuthorsService } from './authors.service';
+import { UUID } from 'crypto';
 export declare class AuthorsController {
-    getAllAuthors(): void;
-    getAuthorById(id: string): void;
+    private readonly authorsService;
+    constructor(authorsService: AuthorsService);
+    getAllAuthors(): Promise<AuthorEntity[]>;
+    getAuthorById(id: UUID): Promise<AuthorEntity>;
+    getAuthorByName(nom: string): Promise<AuthorEntity[]>;
     createAuthor(createAuthorDto: any): void;
-    deleteAuthor(id: string): void;
+    deleteAuthor(id: UUID): void;
+    deleteAllAuthors(): void;
 }

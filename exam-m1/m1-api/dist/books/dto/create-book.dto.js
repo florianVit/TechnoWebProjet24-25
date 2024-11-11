@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateBookDto = void 0;
+const class_transformer_1 = require("class-transformer");
 const class_validator_1 = require("class-validator");
 class CreateBookDto {
 }
@@ -21,6 +22,8 @@ __decorate([
 ], CreateBookDto.prototype, "title", void 0);
 __decorate([
     (0, class_validator_1.IsDate)(),
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_transformer_1.Type)(() => Date),
     __metadata("design:type", Date)
 ], CreateBookDto.prototype, "publicationDate", void 0);
 __decorate([
@@ -28,4 +31,23 @@ __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
 ], CreateBookDto.prototype, "authorId", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsNotEmpty)(),
+    __metadata("design:type", String)
+], CreateBookDto.prototype, "note", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], CreateBookDto.prototype, "commentaire", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsNotEmpty)(),
+    __metadata("design:type", String)
+], CreateBookDto.prototype, "prix", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsNotEmpty)(),
+    __metadata("design:type", String)
+], CreateBookDto.prototype, "description", void 0);
 //# sourceMappingURL=create-book.dto.js.map

@@ -4,10 +4,14 @@ import { AppService } from './app.service';
 import { DatabaseModule } from './modules/database/database.module';
 import { BooksModule } from './books/books.module';
 import { AuthorsModule } from './authors/authors.module';
+import { AuthorsService } from './authors/authors.service';
+import { AuthorRepository } from './authors/author.repository';
+import { AuthorEntity } from './authors/author.entity';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
-  imports: [DatabaseModule, BooksModule, AuthorsModule],
+  imports: [DatabaseModule, BooksModule, AuthorsModule, TypeOrmModule.forFeature([AuthorEntity])],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, AuthorsService, AuthorRepository],
 })
 export class AppModule {}

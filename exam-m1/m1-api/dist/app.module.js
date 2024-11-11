@@ -13,14 +13,18 @@ const app_service_1 = require("./app.service");
 const database_module_1 = require("./modules/database/database.module");
 const books_module_1 = require("./books/books.module");
 const authors_module_1 = require("./authors/authors.module");
+const authors_service_1 = require("./authors/authors.service");
+const author_repository_1 = require("./authors/author.repository");
+const author_entity_1 = require("./authors/author.entity");
+const typeorm_1 = require("@nestjs/typeorm");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [database_module_1.DatabaseModule, books_module_1.BooksModule, authors_module_1.AuthorsModule],
+        imports: [database_module_1.DatabaseModule, books_module_1.BooksModule, authors_module_1.AuthorsModule, typeorm_1.TypeOrmModule.forFeature([author_entity_1.AuthorEntity])],
         controllers: [app_controller_1.AppController],
-        providers: [app_service_1.AppService],
+        providers: [app_service_1.AppService, authors_service_1.AuthorsService, author_repository_1.AuthorRepository],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map
