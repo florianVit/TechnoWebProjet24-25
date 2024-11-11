@@ -11,10 +11,13 @@ export const ModalCreateBook: FC<Props> = ({ isOpen, onClose, onCreate }) => {
   const [publicationDate, setPublicationDate] = useState("");
   const [author, setAuthor] = useState("");
 
-  const handleSubmit = () => {
+const handleSubmit = () => {
     onCreate(title, publicationDate, author);
     onClose();
-  };
+    setTitle("");
+    setPublicationDate("");
+    setAuthor("");
+};
 
   if (!isOpen) return null;
 

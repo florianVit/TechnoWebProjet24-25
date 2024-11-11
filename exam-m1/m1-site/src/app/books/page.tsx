@@ -16,15 +16,15 @@ export default function Books() {
 
   // Récupère les livres depuis l'API
   const loadBooks = () => {
-    /*
     axios.get<BookModel[]>('http://localhost:3001/books').then((response) => {
+      console.log(response.data)
       setBooks(response.data)
     }).catch((error) => {
       console.error(error)
     })
-    */
 
     // Liste temporaire de livres en attendant l'API
+    /*
     const exampleBooks: BookModel[] = [
       { id: 1, title: "Book One", publicationDate: 2021, authorId: 1, note: 4.5, commentaire: "Great book!", prix: 19.99, description: "Description for book one" },
       { id: 2, title: "Book Two", publicationDate: 2020, authorId: 2, note: 4.0, commentaire: "Very interesting.", prix: 15.99, description: "Description for book two" },
@@ -37,7 +37,7 @@ export default function Books() {
       { id: 9, title: "Journey to the Unknown", publicationDate: 2023, authorId: 9, note: 4.9, commentaire: "Captivating and mysterious.", prix: 24.99, description: "A journey into unknown territories." },
       { id: 10, title: "The Science of Happiness", publicationDate: 2014, authorId: 10, note: 4.4, commentaire: "Insightful and uplifting.", prix: 20.99, description: "Exploring the science behind happiness." }
     ];
-    setBooks(exampleBooks);
+    setBooks(exampleBooks);*/
   }
 
   // on charge les livres au chargement de la page
@@ -60,8 +60,19 @@ export default function Books() {
     setSortOrder(event.target.value);
   };
 
-  const onCreate = (title: string, publicationDate: string, author: string) => {
+  const onCreate = (title: string, publicationDate: string, authorId: string) => {
+    axios.post('http://localhost:3001/books', {
+      title,
+      publicationDate,
+      authorId
+    }).then(() => {
+      loadBooks();
+    }).catch((error) => {
+      console.error(error)
+    });
+
     // Création temporaires de livres en attendant l'API
+    /*
     const newBook: BookModel = {
       id: books.length + 1,
       title,
@@ -72,7 +83,7 @@ export default function Books() {
       prix: 0,
       description: ""
     };
-    setBooks([...books, newBook]);
+    setBooks([...books, newBook]);*/
   };
 
   // Filtre les livres en fonction du terme de recherche
@@ -85,7 +96,9 @@ export default function Books() {
     if (sortCriteria === 'title') {
       return sortOrder === 'asc' ? a.title.localeCompare(b.title) : b.title.localeCompare(a.title);
     } else if (sortCriteria === 'publicationDate') {
-      return sortOrder === 'asc' ? a.publicationDate - b.publicationDate : b.publicationDate - a.publicationDate;
+      const dateA = new Date(a.publicationDate).getTime();
+      const dateB = new Date(b.publicationDate).getTime();
+      return sortOrder === 'asc' ? dateA - dateB : dateB - dateA;
     } else if (sortCriteria === 'note') {
       return sortOrder === 'asc' ? a.note - b.note : b.note - a.note;
     }
