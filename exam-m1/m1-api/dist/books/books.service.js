@@ -43,6 +43,17 @@ let BooksService = class BooksService {
         this.books[bookIndex] = { id, ...createBookDto };
         return this.books[bookIndex];
     }
+    removeAll() {
+        this.books = [];
+        return { message: 'All books have been removed' };
+    }
+    findByTitle(title) {
+        const book = this.books.find(b => b.title === title);
+        if (!book) {
+            throw new common_1.NotFoundException(`Book with title ${title} not found`);
+        }
+        return book;
+    }
 };
 exports.BooksService = BooksService;
 exports.BooksService = BooksService = __decorate([

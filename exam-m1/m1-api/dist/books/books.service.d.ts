@@ -1,4 +1,4 @@
-import { CreateBookDto } from './dto/create-book.dto';
+import { CreateBookDto } from './dto/create-books.dto';
 export declare class BooksService {
     private books;
     findAll(): any[];
@@ -17,4 +17,8 @@ export declare class BooksService {
         message: string;
     };
     update(id: string, createBookDto: CreateBookDto): any;
+    removeAll(): {
+        message: string;
+    };
+    findByTitle(title: string): any;
 }
