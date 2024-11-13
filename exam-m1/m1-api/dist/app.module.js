@@ -17,12 +17,13 @@ const authors_service_1 = require("./authors/authors.service");
 const author_repository_1 = require("./authors/author.repository");
 const author_entity_1 = require("./authors/author.entity");
 const typeorm_1 = require("@nestjs/typeorm");
+const books_entity_1 = require("./books/entities/books.entity");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [database_module_1.DatabaseModule, books_module_1.BooksModule, authors_module_1.AuthorsModule, typeorm_1.TypeOrmModule.forFeature([author_entity_1.AuthorEntity])],
+        imports: [database_module_1.DatabaseModule, books_module_1.BooksModule, authors_module_1.AuthorsModule, typeorm_1.TypeOrmModule.forFeature([author_entity_1.AuthorEntity, books_entity_1.BookEntity])],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService, authors_service_1.AuthorsService, author_repository_1.AuthorRepository],
     })

@@ -10,6 +10,7 @@ exports.DatabaseModule = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const author_entity_1 = require("../../authors/author.entity");
+const books_entity_1 = require("../../books/entities/books.entity");
 let DatabaseModule = class DatabaseModule {
 };
 exports.DatabaseModule = DatabaseModule;
@@ -19,7 +20,7 @@ exports.DatabaseModule = DatabaseModule = __decorate([
             typeorm_1.TypeOrmModule.forRoot({
                 type: 'sqlite',
                 database: 'db',
-                entities: [__dirname + '/**/*.entity{.ts,.js}', author_entity_1.AuthorEntity],
+                entities: [__dirname + '/**/*.entity{.ts,.js}', author_entity_1.AuthorEntity, books_entity_1.BookEntity],
                 synchronize: true,
             }),
         ],

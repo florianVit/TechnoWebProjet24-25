@@ -1,21 +1,15 @@
 import { BooksService } from './books.service';
+import { CreateBookDto } from './dto/create-books.dto';
+import { BookEntity } from './entities/books.entity';
+import { UUID } from 'crypto';
 export declare class BooksController {
-    private booksService;
+    private readonly booksService;
     constructor(booksService: BooksService);
-    getAllBooks(): any[];
-    getBookById(id: string): any;
-    createBook(createBookDto: any): {
-        title: string;
-        publicationDate: Date;
-        authorId: string;
-        note: string;
-        commentaire?: string;
-        prix: string;
-        description: string;
-        id: string;
-    };
-    deleteBook(id: string): {
+    getAllBooks(): Promise<BookEntity[]>;
+    getBookById(id: UUID): Promise<BookEntity>;
+    createBook(createBookDto: CreateBookDto): Promise<BookEntity>;
+    deleteBook(id: UUID): Promise<{
         message: string;
-    };
-    updateBook(id: string, createBookDto: any): any;
+    }>;
+    updateBook(id: UUID, createBookDto: CreateBookDto): Promise<BookEntity>;
 }
