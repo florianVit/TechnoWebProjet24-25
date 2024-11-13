@@ -1,14 +1,12 @@
 /*!*****************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[7].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[7].use[3]!./src/app/styles/Authors.module.css ***!
   \*****************************************************************************************************************************************************************************************************************************************************************************/
-/* Container to hold both list and form */
 .Authors_authors-container__mynCi {
     display: flex;
     justify-content: space-between;
     margin-top: 20px;
 }
 
-/* Authors List Styling */
 .Authors_authors-list__B5k1C {
     display: flex;
     flex-wrap: wrap;
@@ -19,7 +17,6 @@
     overflow-y: auto;
   }
 
-/* Page Title */
 .Authors_authors-list__B5k1C h2 {
     text-align: center;
     font-size: 2.5em;
@@ -27,7 +24,6 @@
     margin-bottom: 20px;
 }
 
-/* Author Card Styling */
 .Authors_author-card__1gsme {
     background-color: #ffffff;
     border: 1px solid #e0e0e0;
@@ -44,7 +40,6 @@
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
-/* Author Image */
 .Authors_author-card__1gsme img {
     border-radius: 50%;
     width: 100px;
@@ -54,14 +49,12 @@
     border: 2px solid #007bff;
 }
 
-/* Author Name */
 .Authors_author-card__1gsme h3 {
     font-size: 1.4em;
     color: #333;
     margin-bottom: 10px;
 }
 
-/* Author Details */
 .Authors_author-card__1gsme p {
     font-size: 1em;
     color: #666;
@@ -74,7 +67,6 @@
     color: #888;
 }
 
-/* Delete Button */
 .Authors_delete-button__hzUmM {
     padding: 8px 12px;
     background-color: #ff4d4d;
@@ -106,7 +98,6 @@
     color: white;
 }
 
-/* Add Author Form Styling */
 .Authors_add-author-form__rkDE5 {
     position: fixed;
     right: 20px;
@@ -120,7 +111,6 @@
     z-index: 10;
   }
 
-/* Form Title */
 .Authors_add-author-form__rkDE5 h3 {
     text-align: center;
     font-size: 1.8em;
@@ -128,7 +118,6 @@
     margin-bottom: 15px;
 }
 
-/* Form Input Fields */
 .Authors_add-author-form__rkDE5 input {
     padding: 12px;
     border: 1px solid #ccc;
@@ -150,7 +139,6 @@
 }
   
 
-/* Add Author Button */
 .Authors_add-author-form__rkDE5 button {
     padding: 12px;
     background-color: #007bff;
@@ -166,7 +154,28 @@
     background-color: #0056b3;
 }
 
-/* Responsive Adjustments */
+.Authors_sort-container__OMGyG {
+  margin: 10px 0;
+  display: flex;
+  align-items: center;
+}
+
+.Authors_sort-select__XS_yd {
+  margin-left: 5px;
+  padding: 5px;
+  border-radius: 4px;
+}
+
+.Authors_sort-order-toggle___uFDx {
+  margin-left: 10px;
+  padding: 5px;
+  cursor: pointer;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+
 @media (max-width: 768px) {
     .Authors_authors-container__mynCi {
       flex-direction: column;
