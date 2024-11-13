@@ -2,10 +2,12 @@
 import axios from "axios";
 import { useState, useEffect, ChangeEvent } from "react";
 import { BookModel } from "../models/BookModel";
-import { BookCard } from "../components/BookCard";
-import { SearchBarBook } from "../components/SearchBarBook";
-import { SortBarBook } from "../components/SortBarBook";
-import { ModalCreateBook } from "../components/ModalCreateBook";
+import { BookCard } from "../components/Book/BookCard";
+import { SearchBarBook } from "../components/Book/SearchBar";
+import { SortBarBook } from "../components/Book/SortBarBook";
+//import { ModalCreateBook } from "../components/ModalCreateBook";
+import { Modal } from "../components/Book/Modal";
+import { Button } from "../components/Book/Button";
 
 export default function Books() {
   const [books, setBooks] = useState<BookModel[]>([]);
@@ -13,6 +15,9 @@ export default function Books() {
   const [sortCriteria, setSortCriteria] = useState<string>('title');
   const [sortOrder, setSortOrder] = useState<string>('asc');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [title, setTitle] = useState("");
+  const [author, setAuthor] = useState("");
+  const [publicationDate, setPublicationDate] = useState("");
 
   // Récupère les livres depuis l'API
   const loadBooks = () => {
@@ -87,7 +92,7 @@ export default function Books() {
   };
 
   // Filtre les livres en fonction du terme de recherche
-  const filteredBooks = books.filter(book => 
+  const filteredBooks = books.filter(book =>
     book.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -108,20 +113,46 @@ export default function Books() {
   return (
     <div>
       <h2>Books Page</h2>
-      <button onClick={() => setIsModalOpen(true)}>Create New Book</button>
-      <ModalCreateBook 
-        isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)} 
-        onCreate={onCreate} 
-      /><br/>
+      <Button onClick={() => setIsModalOpen(true)}>Créer un livre</Button>
+      <Modal
+        isOpen={isModalOpen}
+        title="Créer un nouveau livre"
+        onCancel={() => setIsModalOpen(false)}
+        onClose={() => setIsModalOpen(false)}
+        onOk={() => onCreate(title, publicationDate,author )}
+      >
+        <div>
+        <label>
+          Title:
+          <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
+        </label>
+        <label>
+          Publication Date:
+          <input type="date" value={publicationDate} onChange={(e) => setPublicationDate(e.target.value)} />
+        </label>
+        <label>
+          Author:
+          <input type="text" value={author} onChange={(e) => setAuthor(e.target.value)} />
+        </label>
+        </div>
+      </Modal>
+
+      <br />
       <SearchBarBook searchTerm={searchTerm} onSearchChange={handleSearchChange} />
-      <SortBarBook 
-        sortCriteria={sortCriteria} 
-        sortOrder={sortOrder} 
-        onSortCriteriaChange={handleSortCriteriaChange} 
-        onSortOrderChange={handleSortOrderChange} 
+      <SortBarBook
+        sortCriteria={sortCriteria}
+        sortOrder={sortOrder}
+        onSortCriteriaChange={handleSortCriteriaChange}
+        onSortOrderChange={handleSortOrderChange}
       />
       {sortedBooks.map((book) => <BookCard key={book.id} book={book} />)}
     </div>
   );
 }
+
+/*
+<ModalCreateBook
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onCreate={onCreate}
+      /><br />*/
