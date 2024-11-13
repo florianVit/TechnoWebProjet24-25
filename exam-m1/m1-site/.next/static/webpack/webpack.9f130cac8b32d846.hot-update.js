@@ -9,13 +9,21 @@
  */
 self["webpackHotUpdate_N_E"]("webpack",{},
 /******/ function(__webpack_require__) { // webpackRuntimeModules
+/******/ /* webpack/runtime/compat get default export */
+/******/ !function() {
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function() { return module['default']; } :
+/******/ 			function() { return module; };
+/******/ 		__webpack_require__.d(getter, { a: getter });
+/******/ 		return getter;
+/******/ 	};
+/******/ }();
+/******/ 
 /******/ /* webpack/runtime/getFullHash */
 /******/ !function() {
-<<<<<<<< HEAD:exam-m1/m1-site/.next/static/webpack/webpack.041a815bd7bff0c1.hot-update.js
-/******/ 	__webpack_require__.h = function() { return "bd4215548125c0d3"; }
-========
-/******/ 	__webpack_require__.h = function() { return "9bca911e371e896d"; }
->>>>>>>> author_page:exam-m1/m1-site/.next/static/webpack/webpack.23e03877aac238e4.hot-update.js
+/******/ 	__webpack_require__.h = function() { return "9d5a6d83c7368a3e"; }
 /******/ }();
 /******/ 
 /******/ }
