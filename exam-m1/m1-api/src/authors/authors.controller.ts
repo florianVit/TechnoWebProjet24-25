@@ -41,6 +41,11 @@ export class AuthorsController {
         this.authorsService.deleteAllAuthors();
     }
 
+    @Post('/update-author/:id')//Mettre à jour un auteur
+    updateAuthor(@Param('id') id : UUID, @Body() updateAuthorDto) {
+        this.authorsService.updateAuthor(id, updateAuthorDto);
+    }
+
 }
 
 

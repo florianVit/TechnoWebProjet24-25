@@ -37,6 +37,9 @@ let AuthorsController = class AuthorsController {
     deleteAllAuthors() {
         this.authorsService.deleteAllAuthors();
     }
+    updateAuthor(id, updateAuthorDto) {
+        this.authorsService.updateAuthor(id, updateAuthorDto);
+    }
 };
 exports.AuthorsController = AuthorsController;
 __decorate([
@@ -79,6 +82,14 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], AuthorsController.prototype, "deleteAllAuthors", null);
+__decorate([
+    (0, common_1.Post)('/update-author/:id'),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:returntype", void 0)
+], AuthorsController.prototype, "updateAuthor", null);
 exports.AuthorsController = AuthorsController = __decorate([
     (0, common_1.Controller)('authors'),
     __metadata("design:paramtypes", [authors_service_1.AuthorsService])
