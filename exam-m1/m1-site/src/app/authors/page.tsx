@@ -2,11 +2,11 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
-import AuthorCard from '../components/AuthorCard';
+import AuthorCard from '../components/Author/AuthorCard';
 import Header from '../components/Header';
-import AuthorForm from './AuthorForm';
-import SearchBar from './SearchBar';
-import styles from '../styles/Authors.module.css';
+import AuthorForm from '../components/Author/AuthorForm';
+import SearchBar from '../components/Author/SearchBar';
+import styles from '../styles/Authors/Authors.module.css';
 
 interface Author {
   id: string;

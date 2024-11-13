@@ -1,13 +1,13 @@
-/*!*****************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[7].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[7].use[3]!./src/app/styles/Authors.module.css ***!
-  \*****************************************************************************************************************************************************************************************************************************************************************************/
-.Authors_authors-container__mynCi {
+/*!*************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[7].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[7].use[3]!./src/app/styles/Authors/Authors.module.css ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************/
+.Authors_authors-container__paX0g {
     display: flex;
     justify-content: space-between;
     margin-top: 20px;
 }
 
-.Authors_authors-list__B5k1C {
+.Authors_authors-list__AWlRD {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
@@ -17,14 +17,14 @@
     overflow-y: auto;
   }
 
-.Authors_authors-list__B5k1C h2 {
+.Authors_authors-list__AWlRD h2 {
     text-align: center;
     font-size: 2.5em;
     color: #333;
     margin-bottom: 20px;
 }
 
-.Authors_author-card__1gsme {
+.Authors_author-card__ifx9a {
     background-color: #ffffff;
     border: 1px solid #e0e0e0;
     border-radius: 10px;
@@ -35,12 +35,12 @@
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.Authors_author-card__1gsme:hover {
+.Authors_author-card__ifx9a:hover {
     transform: translateY(-5px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
-.Authors_author-card__1gsme img {
+.Authors_author-card__ifx9a img {
     border-radius: 50%;
     width: 100px;
     height: 100px;
@@ -49,25 +49,25 @@
     border: 2px solid #007bff;
 }
 
-.Authors_author-card__1gsme h3 {
+.Authors_author-card__ifx9a h3 {
     font-size: 1.4em;
     color: #333;
     margin-bottom: 10px;
 }
 
-.Authors_author-card__1gsme p {
+.Authors_author-card__ifx9a p {
     font-size: 1em;
     color: #666;
     margin-bottom: 10px;
 }
 
-.Authors_author-card__1gsme .Authors_books-count__4IFnr,
-.Authors_author-card__1gsme .Authors_rating__Ug18m {
+.Authors_author-card__ifx9a .Authors_books-count__fTQrs,
+.Authors_author-card__ifx9a .Authors_rating__mbtfl {
     font-size: 0.9em;
     color: #888;
 }
 
-.Authors_delete-button__hzUmM {
+.Authors_delete-button__7li8T {
     padding: 8px 12px;
     background-color: #ff4d4d;
     color: #ffffff;
@@ -77,28 +77,28 @@
     transition: background-color 0.3s;
 }
 
-.Authors_delete-button__hzUmM:hover {
+.Authors_delete-button__7li8T:hover {
     background-color: #d90000;
 }
 
-.Authors_author-actions__KzBRz {
+.Authors_author-actions__2rg0D {
     display: flex;
     justify-content: space-between;
     margin-top: 10px;
   }
   
-.Authors_edit-button__2aYHT, .Authors_delete-button__hzUmM {
+.Authors_edit-button__qQn0X, .Authors_delete-button__7li8T {
   padding: 8px 12px;
   border: none;
   cursor: pointer;
 }
   
-.Authors_edit-button__2aYHT {
+.Authors_edit-button__qQn0X {
     background-color: #4CAF50;
     color: white;
 }
 
-.Authors_add-author-form__rkDE5 {
+.Authors_add-author-form__4TxN3 {
     position: fixed;
     right: 20px;
     top: 100px;
@@ -111,14 +111,14 @@
     z-index: 10;
   }
 
-.Authors_add-author-form__rkDE5 h3 {
+.Authors_add-author-form__4TxN3 h3 {
     text-align: center;
     font-size: 1.8em;
     color: #333;
     margin-bottom: 15px;
 }
 
-.Authors_add-author-form__rkDE5 input {
+.Authors_add-author-form__4TxN3 input {
     padding: 12px;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -126,12 +126,12 @@
     transition: border-color 0.3s;
 }
 
-.Authors_add-author-form__rkDE5 input:focus {
+.Authors_add-author-form__4TxN3 input:focus {
     border-color: #007bff;
     outline: none;
 }
 
-.Authors_form-label__ftKxY {
+.Authors_form-label__ABg9h {
     font-weight: bold;
     margin-bottom: 8px;
     display: block;
@@ -139,7 +139,7 @@
 }
   
 
-.Authors_add-author-form__rkDE5 button {
+.Authors_add-author-form__4TxN3 button {
     padding: 12px;
     background-color: #007bff;
     color: white;
@@ -150,23 +150,23 @@
     transition: background-color 0.3s;
 }
 
-.Authors_add-author-form__rkDE5 button:hover {
+.Authors_add-author-form__4TxN3 button:hover {
     background-color: #0056b3;
 }
 
-.Authors_sort-container__OMGyG {
+.Authors_sort-container__b5cz_ {
   margin: 10px 0;
   display: flex;
   align-items: center;
 }
 
-.Authors_sort-select__XS_yd {
+.Authors_sort-select__itjn4 {
   margin-left: 5px;
   padding: 5px;
   border-radius: 4px;
 }
 
-.Authors_sort-order-toggle___uFDx {
+.Authors_sort-order-toggle__leUA5 {
   margin-left: 10px;
   padding: 5px;
   cursor: pointer;
@@ -177,24 +177,24 @@
 
 
 @media (max-width: 768px) {
-    .Authors_authors-container__mynCi {
+    .Authors_authors-container__paX0g {
       flex-direction: column;
     }
     
-    .Authors_authors-list__B5k1C {
+    .Authors_authors-list__AWlRD {
       width: 100%;
     }
   
-    .Authors_add-author-form__rkDE5 {
+    .Authors_add-author-form__4TxN3 {
       position: static;
       width: 100%;
     }
 
-    .Authors_author-card__1gsme {
+    .Authors_author-card__ifx9a {
         width: 100%;
     }
     
-    .Authors_add-author-form__rkDE5 {
+    .Authors_add-author-form__4TxN3 {
         width: 90%;
     }
   }
