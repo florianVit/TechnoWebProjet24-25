@@ -36,6 +36,6 @@ export class BooksController {
   // Mettre à jour un livre
   @Put(':id')
   async updateBook(@Param('id') id: UUID, @Body() createBookDto: CreateBookDto): Promise<BookEntity> {
-    return await this.booksService.updateBook(id, createBookDto); // Appelle le service pour mettre à jour un livre par ID
+    return await this.booksService.updateBook(id, createBookDto);
   }
 }
