@@ -1,4 +1,3 @@
-// Authors.tsx
 "use client";
 
 import React, { useEffect, useState } from 'react';
@@ -24,7 +23,7 @@ export default function Authors() {
   const [editAuthorId, setEditAuthorId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [sortCriteria, setSortCriteria] = useState<SortCriteria>('name');
-  const [isAscending, setIsAscending] = useState(true);  // New state for sort order
+  const [isAscending, setIsAscending] = useState(true);
 
   useEffect(() => {
     fetchAuthors();
@@ -41,6 +40,11 @@ export default function Authors() {
     fetch(`http://localhost:3001/authors/by-id/delete/${id}`, { method: 'DELETE' })
       .then(() => setAuthors(prevAuthors => prevAuthors.filter(author => author.id !== id)))
       .catch(error => console.error('Error deleting author:', error));
+  };
+
+  const triggerEdit = (id: string) => {
+    setIsEditing(true);
+    setEditAuthorId(id);
   };
 
   const filteredAuthors = authors
@@ -66,7 +70,6 @@ export default function Authors() {
 
       <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
 
-      {/* Sort Dropdown and Order Toggle */}
       <div className={styles["sort-container"]}>
         <label>Sort By: </label>
         <select
@@ -94,10 +97,7 @@ export default function Authors() {
               key={author.id}
               {...author}
               deleteAuthor={deleteAuthor}
-              triggerEdit={() => {
-                setIsEditing(true);
-                setEditAuthorId(author.id);
-              }}
+              triggerEdit={() => triggerEdit(author.id)}
             />
           ))}
         </div>

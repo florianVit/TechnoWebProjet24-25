@@ -42,7 +42,7 @@ const AuthorDetailsPage: FC = () => {
       <h1>Author Details</h1>
       {author ? (
         <div>
-          <img src={author.photo} alt={`${author.nom}'s photo`} />
+          <img src={author.photo} alt={`${author.nom}'s photo`} style={{ maxWidth: '500px', height: 'auto' }}/>
           <h2>{author.nom}</h2>
           <p>Books Written: {author.nbr_livres_ecrits}</p>
           <p>Average Rating: {author.moyenne_avis}</p>

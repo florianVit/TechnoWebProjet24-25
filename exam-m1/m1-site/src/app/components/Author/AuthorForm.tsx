@@ -27,10 +27,10 @@ export default function AuthorForm({
     const authorData = { nom, photo, nbr_livres_ecrits: nbrLivresEcrits, moyenne_avis: moyenneAvis };
 
     const url = isEditing
-      ? `http://localhost:3001/authors/by-id/update/${editAuthorId}`
+      ? `http://localhost:3001/authors/update-author/${editAuthorId}`
       : 'http://localhost:3001/authors/create-author';
 
-    const method = isEditing ? 'PUT' : 'POST';
+    const method = isEditing ? 'POST' : 'POST';
 
     fetch(url, {
       method,
@@ -56,17 +56,24 @@ export default function AuthorForm({
 
   useEffect(() => {
     if (isEditing && editAuthorId) {
-      // Fetch and prefill data for editing
-      // Example fetching logic, you would replace this with the actual data fetching code
+      fetch(`http://localhost:3001/authors/by-id/${editAuthorId}`)
+        .then(response => response.json())
+        .then(data => {
+          setNom(data.nom);
+          setPhoto(data.photo);
+          setNbrLivresEcrits(data.nbr_livres_ecrits);
+          setMoyenneAvis(data.moyenne_avis);
+        })
+        .catch(error => console.error('Error fetching author for edit:', error));
     }
   }, [isEditing, editAuthorId]);
 
   return (
     <form onSubmit={handleSubmit} className={styles["add-author-form"]}>
-        <h3 className={styles["form-title"]}>{isEditing ? 'Edit Author' : 'Add a New Author'}</h3>
-        
-        <label htmlFor="nom" className={styles["form-label"]}>Author Name</label>
-        <input
+      <h3 className={styles["form-title"]}>{isEditing ? 'Edit Author' : 'Add a New Author'}</h3>
+
+      <label htmlFor="nom" className={styles["form-label"]}>Author Name</label>
+      <input
         type="text"
         id="nom"
         placeholder="Enter the author's name"
@@ -74,10 +81,10 @@ export default function AuthorForm({
         onChange={(e) => setNom(e.target.value)}
         required
         className={styles["form-input"]}
-        />
-        
-        <label htmlFor="photo" className={styles["form-label"]}>Photo URL</label>
-        <input
+      />
+
+      <label htmlFor="photo" className={styles["form-label"]}>Photo URL</label>
+      <input
         type="text"
         id="photo"
         placeholder="Enter the URL of the author's photo"
@@ -85,10 +92,10 @@ export default function AuthorForm({
         onChange={(e) => setPhoto(e.target.value)}
         required
         className={styles["form-input"]}
-        />
-        
-        <label htmlFor="nbrLivresEcrits" className={styles["form-label"]}>Number of Books Written</label>
-        <input
+      />
+
+      <label htmlFor="nbrLivresEcrits" className={styles["form-label"]}>Number of Books Written</label>
+      <input
         type="number"
         id="nbrLivresEcrits"
         placeholder="Enter the number of books written"
@@ -96,10 +103,10 @@ export default function AuthorForm({
         onChange={(e) => setNbrLivresEcrits(Number(e.target.value))}
         required
         className={styles["form-input"]}
-        />
-        
-        <label htmlFor="moyenneAvis" className={styles["form-label"]}>Average Rating</label>
-        <input
+      />
+
+      <label htmlFor="moyenneAvis" className={styles["form-label"]}>Average Rating</label>
+      <input
         type="number"
         id="moyenneAvis"
         placeholder="Enter the author's average rating"
@@ -108,14 +115,11 @@ export default function AuthorForm({
         step="0.1"
         required
         className={styles["form-input"]}
-        />
-        
-        <button
-        type="submit"
-        className={styles["form-button"]}
-        >
+      />
+
+      <button type="submit" className={styles["form-button"]}>
         {isEditing ? 'Edit Author' : 'Add Author'}
-        </button>
+      </button>
     </form>
-);
+  );
 }
