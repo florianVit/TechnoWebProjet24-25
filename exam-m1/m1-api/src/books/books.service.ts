@@ -9,18 +9,23 @@ export class BooksService {
   constructor(private readonly bookRepository: BookRepository) {}
 
   // Créer un nouveau livre
-  async createBook(createBookDto: Partial<BookEntity>): Promise<BookEntity> {
+  async createBook(createBookDto: Partial<BookEntity>): Promise<{ id: string }> {
     // Créez une instance de BookEntity et remplissez-la avec les données du DTO
     const book = new BookEntity();
     book.title = createBookDto.title;
     book.authorId = createBookDto.authorId;
-    book.note = createBookDto.note || null; // Si note n'est pas fournie, on laisse `null`
-    book.commentaire = createBookDto.commentaire || null; // Si commentaire n'est pas fourni, on laisse `null`
-    book.prix = createBookDto.prix || null; // Si prix n'est pas fourni, on laisse `null`
-    book.description = createBookDto.description || null; // Si description n'est pas fournie, on laisse `null`
+    book.note = createBookDto.note || null;
+    book.commentaire = createBookDto.commentaire || null;
+    book.prix = createBookDto.prix || null;
+    book.description = createBookDto.description || null;
     book.publicationDate = createBookDto.publicationDate;
-
-    return this.bookRepository.createBook(book);
+  
+    // Sauvegardez le livre dans la base de données
+    const savedBook = await this.bookRepository.createBook(book);
+  
+    // Renvoyez uniquement l'ID
+    return { id: savedBook.id };
+  
   }
 
   // Récupérer tous les livres

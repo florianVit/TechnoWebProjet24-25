@@ -22,9 +22,9 @@ export class BooksController {
 
   // Créer un nouveau livre
   @Post() // Créer un livre
-  createBook(@Body() createBookDto: CreateBookDto) {
-    return this.booksService.createBook(createBookDto);
-  }
+async createBook(@Body() createBookDto: CreateBookDto): Promise<{ id: string }> {
+  return await this.booksService.createBook(createBookDto);
+}
 
   // Supprimer un livre
   @Delete(':id')
