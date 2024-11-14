@@ -1,5 +1,5 @@
 export type BookModel = {
-    id: number
+    id: string
     title: string
     publicationDate: number
     authorId: number
@@ -7,4 +7,5 @@ export type BookModel = {
     commentaire: string
     prix: number
     description: string
+    authorName?: string
 }

@@ -11,6 +11,7 @@ import { Button } from "../components/Book/Button";
 
 export default function Books() {
   const [books, setBooks] = useState<BookModel[]>([]);
+  const [authors, setAuthors] = useState([]);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [sortCriteria, setSortCriteria] = useState<string>('title');
   const [sortOrder, setSortOrder] = useState<string>('asc');
@@ -19,31 +20,31 @@ export default function Books() {
   const [author, setAuthor] = useState("");
   const [publicationDate, setPublicationDate] = useState("");
 
-  // Récupère les livres depuis l'API
-  const loadBooks = () => {
-    axios.get<BookModel[]>('http://localhost:3001/books').then((response) => {
-      console.log(response.data)
-      setBooks(response.data)
-    }).catch((error) => {
-      console.error(error)
-    })
+  const getAuthorNameById = async (id: string) => {
+    try {
+      const response = await axios.get(`http://localhost:3001/authors/by-id/find/${id}`);
+      return response.data.nom;
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-    // Liste temporaire de livres en attendant l'API
-    /*
-    const exampleBooks: BookModel[] = [
-      { id: 1, title: "Book One", publicationDate: 2021, authorId: 1, note: 4.5, commentaire: "Great book!", prix: 19.99, description: "Description for book one" },
-      { id: 2, title: "Book Two", publicationDate: 2020, authorId: 2, note: 4.0, commentaire: "Very interesting.", prix: 15.99, description: "Description for book two" },
-      { id: 3, title: "Book Three", publicationDate: 2019, authorId: 3, note: 3.5, commentaire: "Good read.", prix: 12.99, description: "Description for book three" },
-      { id: 4, title: "Mystery of the Old House", publicationDate: 2018, authorId: 4, note: 4.8, commentaire: "Thrilling and suspenseful.", prix: 22.99, description: "A mystery novel set in an old house." },
-      { id: 5, title: "Adventures in Space", publicationDate: 2022, authorId: 5, note: 4.2, commentaire: "Exciting space adventure.", prix: 18.99, description: "A sci-fi adventure through space." },
-      { id: 6, title: "Cooking with Love", publicationDate: 2017, authorId: 6, note: 4.7, commentaire: "Delicious recipes.", prix: 25.99, description: "A cookbook filled with recipes made with love." },
-      { id: 7, title: "History of Ancient Civilizations", publicationDate: 2016, authorId: 7, note: 4.3, commentaire: "Very informative.", prix: 30.99, description: "A detailed history of ancient civilizations." },
-      { id: 8, title: "The Art of Painting", publicationDate: 2015, authorId: 8, note: 4.6, commentaire: "Inspiring art techniques.", prix: 28.99, description: "A guide to painting techniques and styles." },
-      { id: 9, title: "Journey to the Unknown", publicationDate: 2023, authorId: 9, note: 4.9, commentaire: "Captivating and mysterious.", prix: 24.99, description: "A journey into unknown territories." },
-      { id: 10, title: "The Science of Happiness", publicationDate: 2014, authorId: 10, note: 4.4, commentaire: "Insightful and uplifting.", prix: 20.99, description: "Exploring the science behind happiness." }
-    ];
-    setBooks(exampleBooks);*/
-  }
+  // Récupère les livres depuis l'API
+  const loadBooks = async () => {
+    try {
+      const response = await axios.get<BookModel[]>('http://localhost:3001/books');
+      
+      const booksWithAuthorNames = await Promise.all(response.data.map(async (book) => {
+        
+        const authorName = await getAuthorNameById(book.authorId.toString());
+        return { ...book, authorName };
+      }));
+      console.log("books ", booksWithAuthorNames);
+      setBooks(booksWithAuthorNames);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   // on charge les livres au chargement de la page
   useEffect(() => {
@@ -65,15 +66,52 @@ export default function Books() {
     setSortOrder(event.target.value);
   };
 
-  const onCreate = (title: string, publicationDate: string, authorId: string) => {
+  const createAuthor = async (name: string) => {
+    try {
+      const response = await axios.post('http://localhost:3001/authors/create-author', {
+        nom: name,
+        photo: '',
+        nbr_livres_ecrits: 0,
+        moyenne_avis: 0
+      });
+      //return response.data.id;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const getAuthorIdByName = async (name: string) => {
+    try {
+      const response = await axios.get(`http://localhost:3001/authors/by-name/find/${name}`);
+      if (response.data.length > 0) {
+        return response.data[0].id
+      }
+      return null;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const onCreate = async (title: string, publicationDate: string, authorName: string) => {
+    let authorId = await getAuthorIdByName(authorName);
+    if (!authorId) {
+      await createAuthor(authorName);
+      authorId = await getAuthorIdByName(authorName);
+    }
+
+    if (!authorId) {
+      console.error("Author ID is undefined");
+      return;
+    }
+
     axios.post('http://localhost:3001/books', {
       title,
       publicationDate,
-      authorId
+      authorId: authorId.toString()
     }).then(() => {
       loadBooks();
     }).catch((error) => {
-      console.error(error)
+      console.error(error);
     });
 
     // Création temporaires de livres en attendant l'API
@@ -119,7 +157,7 @@ export default function Books() {
         title="Créer un nouveau livre"
         onCancel={() => setIsModalOpen(false)}
         onClose={() => setIsModalOpen(false)}
-        onOk={() => onCreate(title, publicationDate,author )}
+        onOk={() => onCreate(title, publicationDate, author)}
       >
         <div>
         <label>
@@ -145,14 +183,7 @@ export default function Books() {
         onSortCriteriaChange={handleSortCriteriaChange}
         onSortOrderChange={handleSortOrderChange}
       />
-      {sortedBooks.map((book) => <BookCard key={book.id} book={book} />)}
+      {sortedBooks.map((book) => <BookCard key={book.id} book={book} authorName={book.authorName} />)}
     </div>
   );
 }
-
-/*
-<ModalCreateBook
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onCreate={onCreate}
-      /><br />*/
