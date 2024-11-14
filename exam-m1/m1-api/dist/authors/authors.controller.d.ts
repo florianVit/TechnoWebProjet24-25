@@ -10,4 +10,5 @@ export declare class AuthorsController {
     createAuthor(createAuthorDto: any): void;
     deleteAuthor(id: UUID): void;
     deleteAllAuthors(): void;
+    updateAuthor(id: UUID, updateAuthorDto: any): void;
 }

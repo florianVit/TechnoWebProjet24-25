@@ -11,4 +11,5 @@ export declare class AuthorsService {
     getAuthorByName(nom: string): Promise<AuthorEntity[]>;
     deleteAuthor(id: UUID): void;
     deleteAllAuthors(): void;
+    updateAuthor(id: UUID, updateAuthorDto: any): void;
 }

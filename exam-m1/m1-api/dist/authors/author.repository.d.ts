@@ -10,4 +10,5 @@ export declare class AuthorRepository {
     findOneByName(nom: string): Promise<AuthorEntity[]>;
     deleteAuthor(id: UUID): Promise<void>;
     deleteAllAuthors(): Promise<void>;
+    updateAuthor(id: UUID, auteur: Partial<AuthorEntity>): void;
 }

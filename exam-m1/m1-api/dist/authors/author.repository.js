@@ -43,6 +43,9 @@ let AuthorRepository = class AuthorRepository {
             await this.repo.delete(author.id);
         }
     }
+    updateAuthor(id, auteur) {
+        this.repo.update(id, auteur);
+    }
 };
 exports.AuthorRepository = AuthorRepository;
 exports.AuthorRepository = AuthorRepository = __decorate([

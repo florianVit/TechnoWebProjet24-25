@@ -8,6 +8,7 @@ import { SortBarBook } from "../components/Book/SortBarBook";
 //import { ModalCreateBook } from "../components/ModalCreateBook";
 import { Modal } from "../components/Book/Modal";
 import { Button } from "../components/Book/Button";
+import Header from "../components/Header";
 
 export default function Books() {
   const [books, setBooks] = useState<BookModel[]>([]);
@@ -150,6 +151,7 @@ export default function Books() {
 
   return (
     <div>
+      <Header />
       <h2>Books Page</h2>
       <Button onClick={() => setIsModalOpen(true)}>Créer un livre</Button>
       <Modal
