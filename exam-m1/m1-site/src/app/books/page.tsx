@@ -185,7 +185,7 @@ export default function Books() {
         onSortCriteriaChange={handleSortCriteriaChange}
         onSortOrderChange={handleSortOrderChange}
       />
-      {sortedBooks.map((book) => <BookCard key={book.id} book={book} authorName={book.authorName} />)}
+      {sortedBooks.map((book) => <BookCard key={book.id} book={book} authorName={book.authorName || 'Unknown Author'} />)}
     </div>
   );
 }

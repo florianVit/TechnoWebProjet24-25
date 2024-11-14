@@ -23,20 +23,7 @@ self["webpackHotUpdate_N_E"]("webpack",{},
 /******/ 
 /******/ /* webpack/runtime/getFullHash */
 /******/ !function() {
-<<<<<<< HEAD
-<<<<<<<< HEAD:exam-m1/m1-site/.next/static/webpack/webpack.9b0318fccb7a3495.hot-update.js
-/******/ 	__webpack_require__.h = function() { return "3edf4ab1d18394aa"; }
-=======
-<<<<<<<< HEAD:exam-m1/m1-site/.next/static/webpack/webpack.3edf4ab1d18394aa.hot-update.js
-<<<<<<<< HEAD:exam-m1/m1-site/.next/static/webpack/webpack.3edf4ab1d18394aa.hot-update.js
-/******/ 	__webpack_require__.h = function() { return "248de87d4c845dae"; }
-========
-/******/ 	__webpack_require__.h = function() { return "9f216980c83f34dd"; }
->>>>>>>> origin/Front-end_Paul:exam-m1/m1-site/.next/static/webpack/webpack.4b10175b9c7da397.hot-update.js
->>>>>>> origin/Front-end_Paul
-========
-/******/ 	__webpack_require__.h = function() { return "4b10175b9c7da397"; }
->>>>>>>> origin/Front-end_Paul:exam-m1/m1-site/.next/static/webpack/webpack.294767053b2b977a.hot-update.js
+/******/ 	__webpack_require__.h = function() { return "b3af8ea89809934f"; }
 /******/ }();
 /******/ 
 /******/ }

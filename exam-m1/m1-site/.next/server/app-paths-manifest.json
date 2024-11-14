@@ -1,10 +1,6 @@
 {
-  "/page": "app/page.js",
-<<<<<<< HEAD
   "/authors/page": "app/authors/page.js",
-  "/books/page": "app/books/page.js"
-=======
   "/books/page": "app/books/page.js",
-  "/books/[id]/page": "app/books/[id]/page.js"
->>>>>>> origin/Front-end_Paul
+  "/books/[id]/page": "app/books/[id]/page.js",
+  "/authors/[id]/page": "app/authors/[id]/page.js"
 }

@@ -15,10 +15,17 @@ interface Author {
   moyenne_avis: number;
 }
 
+interface Book {
+  id: string;
+  title: string;
+  authorId: string;
+}
+
 type SortCriteria = 'name' | 'books' | 'rating';
 
 export default function Authors() {
   const [authors, setAuthors] = useState<Author[]>([]);
+  const [books, setBooks] = useState<Book[]>([]);
   const [isEditing, setIsEditing] = useState(false);
   const [editAuthorId, setEditAuthorId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
@@ -27,6 +34,7 @@ export default function Authors() {
 
   useEffect(() => {
     fetchAuthors();
+    fetchBooks();
   }, []);
 
   const fetchAuthors = () => {
@@ -35,6 +43,36 @@ export default function Authors() {
       .then(data => setAuthors(data))
       .catch(error => console.error('Error fetching authors:', error));
   };
+
+  const fetchBooks = () => {
+    fetch('http://localhost:3001/books')
+      .then(response => response.json())
+      .then(data => setBooks(data))
+      .catch(error => console.error('Error fetching books:', error));
+  };
+
+  const handleCreateAuthor = (authorData: { nom: string; photo: string; nbr_livres_ecrits: number; moyenne_avis: number; }) => {
+    const url = isEditing
+      ? `http://localhost:3001/authors/update-author/${editAuthorId}`
+      : 'http://localhost:3001/authors/create-author';
+  
+    fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(authorData),
+    })
+      .then(response => response.json())
+      .then(newAuthor => {
+        setAuthors(prevAuthors => isEditing
+          ? prevAuthors.map(author => (author.id === editAuthorId ? newAuthor : author))
+          : [...prevAuthors, newAuthor]
+        );
+        fetchAuthors();
+        setIsEditing(false);
+        setEditAuthorId(null);
+      })
+      .catch(error => console.error('Error submitting author data:', error));
+  };  
 
   const deleteAuthor = (id: string) => {
     fetch(`http://localhost:3001/authors/by-id/delete/${id}`, { method: 'DELETE' })
@@ -47,6 +85,10 @@ export default function Authors() {
     setEditAuthorId(id);
   };
 
+  const getBooksCountByAuthor = (authorId: string) => {
+    return books.filter(book => book.authorId === authorId).length;
+  };
+
   const filteredAuthors = authors
     .filter(author =>
       author.nom.toLowerCase().includes(searchQuery.toLowerCase())
@@ -56,7 +98,7 @@ export default function Authors() {
       if (sortCriteria === 'name') {
         return a.nom.localeCompare(b.nom) * order;
       } else if (sortCriteria === 'books') {
-        return (b.nbr_livres_ecrits - a.nbr_livres_ecrits) * order;
+        return (getBooksCountByAuthor(b.id) - getBooksCountByAuthor(a.id)) * order;
       } else if (sortCriteria === 'rating') {
         return (b.moyenne_avis - a.moyenne_avis) * order;
       }
@@ -96,6 +138,7 @@ export default function Authors() {
             <AuthorCard
               key={author.id}
               {...author}
+              nbr_livres_ecrits={getBooksCountByAuthor(author.id)}
               deleteAuthor={deleteAuthor}
               triggerEdit={() => triggerEdit(author.id)}
             />
@@ -103,6 +146,7 @@ export default function Authors() {
         </div>
 
         <AuthorForm
+          handleCreateAuthor={handleCreateAuthor}
           fetchAuthors={fetchAuthors}
           isEditing={isEditing}
           editAuthorId={editAuthorId}

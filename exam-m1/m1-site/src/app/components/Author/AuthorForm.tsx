@@ -2,6 +2,12 @@ import React, { useState, useEffect } from 'react';
 import styles from '../../styles/Authors/Authors.module.css';
 
 interface AuthorFormProps {
+  handleCreateAuthor: (authorData: {
+    nom: string;
+    photo: string;
+    nbr_livres_ecrits: number;
+    moyenne_avis: number;
+  }) => void;
   fetchAuthors: () => void;
   isEditing: boolean;
   editAuthorId: string | null;
@@ -10,6 +16,7 @@ interface AuthorFormProps {
 }
 
 export default function AuthorForm({
+  handleCreateAuthor,
   fetchAuthors,
   isEditing,
   editAuthorId,
@@ -25,24 +32,8 @@ export default function AuthorForm({
     event.preventDefault();
 
     const authorData = { nom, photo, nbr_livres_ecrits: nbrLivresEcrits, moyenne_avis: moyenneAvis };
-
-    const url = isEditing
-      ? `http://localhost:3001/authors/update-author/${editAuthorId}`
-      : 'http://localhost:3001/authors/create-author';
-
-    const method = isEditing ? 'POST' : 'POST';
-
-    fetch(url, {
-      method,
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(authorData),
-    })
-      .then(response => response.json())
-      .then(() => {
-        fetchAuthors();
-        resetForm();
-      })
-      .catch(error => console.error('Error submitting author data:', error));
+    handleCreateAuthor(authorData);
+    resetForm();
   };
 
   const resetForm = () => {
@@ -94,7 +85,7 @@ export default function AuthorForm({
         className={styles["form-input"]}
       />
 
-      <label htmlFor="nbrLivresEcrits" className={styles["form-label"]}>Number of Books Written</label>
+      {/* <label htmlFor="nbrLivresEcrits" className={styles["form-label"]}>Number of Books Written</label>
       <input
         type="number"
         id="nbrLivresEcrits"
@@ -115,7 +106,7 @@ export default function AuthorForm({
         step="0.1"
         required
         className={styles["form-input"]}
-      />
+      /> */}
 
       <button type="submit" className={styles["form-button"]}>
         {isEditing ? 'Edit Author' : 'Add Author'}
