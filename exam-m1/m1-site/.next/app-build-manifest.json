@@ -17,11 +17,11 @@
       "static/css/app/authors/page.css",
       "static/chunks/app/authors/page.js"
     ],
-    "/authors/[id]/page": [
+    "/books/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/css/app/authors/[id]/page.css",
-      "static/chunks/app/authors/[id]/page.js"
+      "static/css/app/books/page.css",
+      "static/chunks/app/books/page.js"
     ]
   }
 }
