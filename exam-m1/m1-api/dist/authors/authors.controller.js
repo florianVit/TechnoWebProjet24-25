@@ -26,11 +26,9 @@ let AuthorsController = class AuthorsController {
         return this.authorsService.getAuthorById(id);
     }
     getAuthorByName(nom) {
-        console.log("Nom de l'auteur : ", nom);
         return this.authorsService.getAuthorByName(nom);
     }
     createAuthor(createAuthorDto) {
-        console.log("Auteur créé : ", createAuthorDto);
         this.authorsService.createAuthor(createAuthorDto);
     }
     deleteAuthor(id) {
