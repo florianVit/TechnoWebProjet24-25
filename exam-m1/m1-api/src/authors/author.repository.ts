@@ -32,4 +32,7 @@ export class AuthorRepository {
             await this.repo.delete(author.id);
         }
     }
+    updateAuthor(id: UUID, auteur: Partial<AuthorEntity>){
+        this.repo.update(id, auteur);
+    }
 }

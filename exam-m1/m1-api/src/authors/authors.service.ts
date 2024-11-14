@@ -34,4 +34,7 @@ export class AuthorsService {
     deleteAllAuthors() {
         this.authorRepository.deleteAllAuthors();
     }
+    updateAuthor(id : UUID, updateAuthorDto) {
+        this.authorRepository.updateAuthor(id, updateAuthorDto);
+    }
 }

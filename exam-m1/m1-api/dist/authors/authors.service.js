@@ -41,6 +41,9 @@ let AuthorsService = class AuthorsService {
     deleteAllAuthors() {
         this.authorRepository.deleteAllAuthors();
     }
+    updateAuthor(id, updateAuthorDto) {
+        this.authorRepository.updateAuthor(id, updateAuthorDto);
+    }
 };
 exports.AuthorsService = AuthorsService;
 exports.AuthorsService = AuthorsService = __decorate([

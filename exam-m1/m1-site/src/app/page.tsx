@@ -1,8 +1,21 @@
-'use client';
-import './App.css';
+import Link from 'next/link';
+import './styles/App.css';
+import Header from './components/Header';
 
-function App() {
-  return <h1>Hello World!</h1>
+export default function Home() {
+  return (
+    <div>
+      <Header />
+      <h2>Welcome to the Book App</h2>
+      <p>Select a page:</p>
+      <ul>
+        <li>
+          <Link href="/books">Books</Link>
+        </li>
+        <li>
+          <Link href="/authors">Authors</Link>
+        </li>
+      </ul>
+    </div>
+  );
 }
-
-export default App;
