@@ -10,44 +10,43 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UpdateBookDto = void 0;
-const class_transformer_1 = require("class-transformer");
 const class_validator_1 = require("class-validator");
 class UpdateBookDto {
 }
 exports.UpdateBookDto = UpdateBookDto;
 __decorate([
-    (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], UpdateBookDto.prototype, "title", void 0);
 __decorate([
-    (0, class_validator_1.IsDate)(),
     (0, class_validator_1.IsNotEmpty)(),
-    (0, class_transformer_1.Type)(() => Date),
-    __metadata("design:type", Date)
-], UpdateBookDto.prototype, "publicationDate", void 0);
-__decorate([
     (0, class_validator_1.IsString)(),
-    (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
 ], UpdateBookDto.prototype, "authorId", void 0);
 __decorate([
-    (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsDateString)(),
     __metadata("design:type", String)
+], UpdateBookDto.prototype, "publicationDate", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsNumber)(),
+    __metadata("design:type", Number)
 ], UpdateBookDto.prototype, "note", void 0);
 __decorate([
+    (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], UpdateBookDto.prototype, "commentaire", void 0);
 __decorate([
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.IsNotEmpty)(),
-    __metadata("design:type", String)
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsNumber)(),
+    __metadata("design:type", Number)
 ], UpdateBookDto.prototype, "prix", void 0);
 __decorate([
+    (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsString)(),
-    (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
 ], UpdateBookDto.prototype, "description", void 0);
 //# sourceMappingURL=update-books.dto.js.map

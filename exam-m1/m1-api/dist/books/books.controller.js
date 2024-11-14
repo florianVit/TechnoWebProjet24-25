@@ -26,8 +26,8 @@ let BooksController = class BooksController {
     async getBookById(id) {
         return await this.booksService.getBookById(id);
     }
-    createBook(createBookDto) {
-        return this.booksService.createBook(createBookDto);
+    async createBook(createBookDto) {
+        return await this.booksService.createBook(createBookDto);
     }
     async deleteBook(id) {
         await this.booksService.removeBook(id);
@@ -56,7 +56,7 @@ __decorate([
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_books_dto_1.CreateBookDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], BooksController.prototype, "createBook", null);
 __decorate([
     (0, common_1.Delete)(':id'),
