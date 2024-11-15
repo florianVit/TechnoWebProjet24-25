@@ -57,7 +57,7 @@ export default function AuthorForm({
           setPhoto(data.photo);
           setNbrLivresEcrits(data.nbr_livres_ecrits);
           setMoyenneAvis(data.moyenne_avis);
-          setBiographie(data.biographie); // Load biographie if editing
+          setBiographie(data.biographie);
         })
         .catch(error => console.error('Error fetching author for edit:', error));
     }

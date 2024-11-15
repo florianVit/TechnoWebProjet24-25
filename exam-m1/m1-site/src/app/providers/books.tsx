@@ -53,25 +53,38 @@ export const useBookProviders = () => {
     }
   };
 
-  const incrementAuthorBooksCount = async (authorId: string, book: { id: string, title: string, publicationDate: string }) => {
+  const incrementAuthorBooksCount = async (
+    authorId: string,
+    book: { id: string, title: string, publicationDate: string }
+  ) => {
     try {
+      // Fetch the author data
       const response = await axios.get(`http://localhost:3001/authors/by-id/find/${authorId}`);
-      const newNbrLivresEcrits = response.data.nbr_livres_ecrits + 1;
-      const updatedListeLivre = response.data.liste_livre ? [...response.data.liste_livre, book] : [book];
-      console.log("Updated liste livre:");
-      console.log(updatedListeLivre);
+  
+      // Increment the number of books
+      const newNbrLivresEcrits = (response.data.nbr_livres_ecrits || 0) + 1;
+  
+      // Update the list of book IDs
+      const updatedListeLivre = response.data.liste_livre
+        ? [...response.data.liste_livre, book.id] // Use only the book ID
+        : [book.id];
+  
+      console.log("Updated liste livre:", updatedListeLivre); // Debugging log
+  
+      // Send the updated data back to the server
       await axios.put(`http://localhost:3001/authors/update-author/${authorId}`, {
         nom: response.data.nom,
         photo: response.data.photo,
         nbr_livres_ecrits: newNbrLivresEcrits,
         moyenne_avis: response.data.moyenne_avis,
         biographie: response.data.biographie,
-        liste_livre: updatedListeLivre
+        liste_livre: updatedListeLivre, // Updated list of book IDs
       });
     } catch (error) {
-      console.error(error);
+      console.error("Error updating author's book count:", error);
     }
   };
+  
 
   const onCreate = async (title: string, publicationDate: string, authorName: string) => {
     let authorId = await getAuthorIdByName(authorName);

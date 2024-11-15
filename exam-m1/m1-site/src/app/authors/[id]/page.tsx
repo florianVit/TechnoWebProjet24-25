@@ -9,8 +9,8 @@ interface AuthorDetails {
   nom: string;
   photo: string;
   moyenne_avis: number;
-  biographie: string;  // Added biographie
-  liste_livre: string[];  // Corrected field name (liste_livre instead of bookIds)
+  biographie: string; 
+  liste_livre: string[]; 
 }
 
 interface Book {
@@ -32,15 +32,15 @@ const AuthorDetailsPage: FC = () => {
     fetch(`http://localhost:3001/authors/by-id/find/${id}`)
       .then(response => response.json())
       .then(data => {
-        console.log('Fetched Author Data:', data); // Debugging log for author data
+        console.log('Fetched Author Data:', data);
 
         if (data) {
           setAuthor(data);
           
           // Check if the 'liste_livre' field is available
           if (data.liste_livre) {
-            console.log('Books list:', data.liste_livre); // Log the books list
-            loadBooksByIds(data.liste_livre); // Load books by the given list of book IDs
+            console.log('Books list:', data.liste_livre);
+            loadBooksByIds(data.liste_livre); 
           } else {
             console.error("Error: liste_livre is undefined.");
           }
@@ -53,15 +53,18 @@ const AuthorDetailsPage: FC = () => {
       });
   };
 
-  // Function to load a single book by ID
   const loadBook = (bookId: string): Promise<Book | null> => {
+    console.log(`Fetching book with ID:`, bookId); 
     return fetch(`http://localhost:3001/books/${bookId}`)
-      .then(response => response.json())
+      .then(response => {
+        console.log('Response status:', response.status);
+        return response.json();
+      })
       .catch(error => {
         console.error(`Error fetching book with ID ${bookId}:`, error);
         return null;
       });
-  };
+  };  
 
   // Function to load multiple books by their IDs
   const loadBooksByIds = (bookIds: string[]) => {
@@ -69,12 +72,11 @@ const AuthorDetailsPage: FC = () => {
       const bookFetches = bookIds.map(bookId => loadBook(bookId));
       Promise.all(bookFetches)
         .then((booksData) => {
-          // Filter out any invalid (null) book responses
           setBooks(booksData.filter(Boolean) as Book[]);
         })
         .catch(error => {
           console.error("Error fetching books:", error);
-          setBooks([]); // Handle error by showing no books or a fallback message
+          setBooks([]);
         });
     } else {
       console.error("Error: bookIds list is empty or invalid.");
@@ -85,7 +87,7 @@ const AuthorDetailsPage: FC = () => {
   const handleDelete = () => {
     fetch(`http://localhost:3001/authors/by-id/delete/${id}`, { method: 'DELETE' })
       .then(() => {
-        router.push('/authors'); // Redirect to authors list after deletion
+        router.push('/authors');
       })
       .catch(error => console.error("Error deleting author:", error));
   };
@@ -102,7 +104,6 @@ const AuthorDetailsPage: FC = () => {
         <div>
           <img src={author.photo} alt={`${author.nom}'s photo`} style={{ maxWidth: '300px', height: 'auto' }} />
           <h2>{author.nom}</h2>
-          <p>Average Rating: {author.moyenne_avis}</p>
 
           {/* Display Biography */}
           <h3>Biography</h3>
@@ -115,7 +116,6 @@ const AuthorDetailsPage: FC = () => {
                 <li key={book.id}>
                   <h4>{book.title}</h4>
                   <p>Publication Date: {new Date(book.publicationDate).toLocaleDateString()}</p>
-                  <p>Rating: {book.note}</p>
                   <Button onClick={() => router.push(`/books/${book.id}`)}>View Book Details</Button>
                 </li>
               ))}

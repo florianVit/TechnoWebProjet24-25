@@ -52,39 +52,44 @@ export default function Authors() {
   };
 
   const handleCreateAuthor = (authorData: any) => {
-    const url = isEditing
+    const isEdit = isEditing && editAuthorId;
+    const url = isEdit
       ? `http://localhost:3001/authors/update-author/${editAuthorId}`
       : 'http://localhost:3001/authors/create-author';
   
+    const method = isEdit ? 'PUT' : 'POST';
+  
     fetch(url, {
-      method: 'POST',
+      method,
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(authorData),
     })
       .then(response => {
-        if (response.ok) {
-          // If the response is OK, we try to parse it, but we handle the case where there is no body
-          return response.json().catch(() => null);  // Return null if there's no valid JSON
-        } else {
+        if (!response.ok) {
           throw new Error('Network response was not ok');
         }
+        return response.json().catch(() => null);
       })
-      .then(newAuthor => {
-        if (newAuthor) {
-          console.log('Author created:', newAuthor);  // Log the newly created author data
-          setAuthors(prevAuthors => isEditing
-            ? prevAuthors.map(author => (author.id === editAuthorId ? newAuthor : author))
-            : [...prevAuthors, newAuthor]
+      .then(updatedAuthor => {
+        if (updatedAuthor) {
+          console.log(isEdit ? 'Author updated:' : 'Author created:', updatedAuthor);
+          setAuthors(prevAuthors =>
+            isEdit
+              ? prevAuthors.map(author =>
+                  author.id === editAuthorId ? updatedAuthor : author
+                )
+              : [...prevAuthors, updatedAuthor]
           );
         } else {
-          console.log('No data returned after creation');
+          console.log('No data returned after creation or update.');
         }
         fetchAuthors();
         setIsEditing(false);
         setEditAuthorId(null);
       })
       .catch(error => console.error('Error submitting author data:', error));
-  };  
+  };
+  
 
   const deleteAuthor = (id: string) => {
     fetch(`http://localhost:3001/authors/by-id/delete/${id}`, { method: 'DELETE' })
