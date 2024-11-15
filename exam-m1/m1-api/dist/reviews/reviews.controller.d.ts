@@ -5,4 +5,5 @@ export declare class ReviewController {
     private readonly reviewService;
     constructor(reviewService: ReviewService);
     createReview(bookId: string, createReviewDto: CreateReviewDto): Promise<Review>;
+    getReviewsByBook(bookId: string): Promise<Review[]>;
 }

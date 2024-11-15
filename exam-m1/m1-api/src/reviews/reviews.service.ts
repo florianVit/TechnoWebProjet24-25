@@ -13,23 +13,34 @@ export class ReviewService {
     @InjectRepository(Review)
     private readonly reviewRepository: Repository<Review>,
     @InjectRepository(BookEntity)
-    private readonly bookRepository: Repository<BookEntity>
+    private readonly bookRepository: Repository<BookEntity>,
   ) {}
 
   async createReview(bookId: string, createReviewDto: CreateReviewDto): Promise<Review> {
-    // Vérifier que le livre existe
+    const { rating, comment } = createReviewDto;
+
     const book = await this.bookRepository.findOne({ where: { id: bookId } });
     if (!book) {
-      throw new NotFoundException(`Le livre avec l'ID ${bookId} n'existe pas.`);
+      throw new NotFoundException('Livre non trouvé');
     }
 
-    // Créer un nouvel avis
-    const review = new Review();
-    review.rating = createReviewDto.rating;
-    review.comment = createReviewDto.comment;
-    review.book = book; // Associe l'avis au livre
+    const review = this.reviewRepository.create({
+      rating,
+      comment,
+      book,
+    });
 
-    // Sauvegarder l'avis dans la base de données
-    return this.reviewRepository.save(review);
+    return await this.reviewRepository.save(review);
+  }
+
+  // Nouvelle méthode pour récupérer les avis d'un livre
+  async getReviewsForBook(bookId: string): Promise<Review[]> {
+    const book = await this.bookRepository.findOne({ where: { id: bookId }, relations: ['reviews'] });
+
+    if (!book) {
+      throw new NotFoundException('Livre non trouvé');
+    }
+
+    return book.reviews; // Retourne les avis associés au livre
   }
 }

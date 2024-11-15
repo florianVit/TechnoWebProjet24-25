@@ -7,4 +7,5 @@ export declare class ReviewService {
     private readonly bookRepository;
     constructor(reviewRepository: Repository<Review>, bookRepository: Repository<BookEntity>);
     createReview(bookId: string, createReviewDto: CreateReviewDto): Promise<Review>;
+    getReviewsForBook(bookId: string): Promise<Review[]>;
 }

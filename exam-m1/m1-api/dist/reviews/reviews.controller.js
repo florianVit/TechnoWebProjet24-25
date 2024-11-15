@@ -23,6 +23,9 @@ let ReviewController = class ReviewController {
     async createReview(bookId, createReviewDto) {
         return this.reviewService.createReview(bookId, createReviewDto);
     }
+    async getReviewsByBook(bookId) {
+        return this.reviewService.getReviewsForBook(bookId);
+    }
 };
 exports.ReviewController = ReviewController;
 __decorate([
@@ -33,6 +36,13 @@ __decorate([
     __metadata("design:paramtypes", [String, create_review_dto_1.CreateReviewDto]),
     __metadata("design:returntype", Promise)
 ], ReviewController.prototype, "createReview", null);
+__decorate([
+    (0, common_1.Get)(':bookId/reviews'),
+    __param(0, (0, common_1.Param)('bookId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], ReviewController.prototype, "getReviewsByBook", null);
 exports.ReviewController = ReviewController = __decorate([
     (0, common_1.Controller)('books'),
     __metadata("design:paramtypes", [reviews_service_1.ReviewService])

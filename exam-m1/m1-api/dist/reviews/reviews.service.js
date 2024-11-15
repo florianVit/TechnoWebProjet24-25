@@ -24,15 +24,24 @@ let ReviewService = class ReviewService {
         this.bookRepository = bookRepository;
     }
     async createReview(bookId, createReviewDto) {
+        const { rating, comment } = createReviewDto;
         const book = await this.bookRepository.findOne({ where: { id: bookId } });
         if (!book) {
-            throw new common_1.NotFoundException(`Le livre avec l'ID ${bookId} n'existe pas.`);
+            throw new common_1.NotFoundException('Livre non trouvé');
         }
-        const review = new review_entity_1.Review();
-        review.rating = createReviewDto.rating;
-        review.comment = createReviewDto.comment;
-        review.book = book;
-        return this.reviewRepository.save(review);
+        const review = this.reviewRepository.create({
+            rating,
+            comment,
+            book,
+        });
+        return await this.reviewRepository.save(review);
+    }
+    async getReviewsForBook(bookId) {
+        const book = await this.bookRepository.findOne({ where: { id: bookId }, relations: ['reviews'] });
+        if (!book) {
+            throw new common_1.NotFoundException('Livre non trouvé');
+        }
+        return book.reviews;
     }
 };
 exports.ReviewService = ReviewService;

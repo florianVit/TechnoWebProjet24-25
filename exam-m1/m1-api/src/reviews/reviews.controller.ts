@@ -7,12 +7,18 @@ import { Review } from './review.entity';
 export class ReviewController {
   constructor(private readonly reviewService: ReviewService) {}
 
-  @Post(':bookId/reviews') // La route est dynamique
+  @Post(':bookId/reviews')  // Route pour ajouter un avis
   async createReview(
-    @Param('bookId') bookId: string, // Capture l'UUID du livre
-    @Body() createReviewDto: CreateReviewDto
+    @Param('bookId') bookId: string,
+    @Body() createReviewDto: CreateReviewDto,
   ) {
-    return this.reviewService.createReview(bookId, createReviewDto); // Transmet l'UUID et les données de l'avis
+    return this.reviewService.createReview(bookId, createReviewDto);
+  }
+
+  // Nouvelle route pour récupérer les avis d'un livre
+  @Get(':bookId/reviews')
+  async getReviewsByBook(@Param('bookId') bookId: string) {
+    return this.reviewService.getReviewsForBook(bookId);
   }
 }
 

@@ -34,14 +34,6 @@ __decorate([
 __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", Number)
-], BookEntity.prototype, "note", void 0);
-__decorate([
-    (0, typeorm_1.Column)({ nullable: true }),
-    __metadata("design:type", String)
-], BookEntity.prototype, "commentaire", void 0);
-__decorate([
-    (0, typeorm_1.Column)({ nullable: true }),
-    __metadata("design:type", Number)
 ], BookEntity.prototype, "prix", void 0);
 __decorate([
     (0, typeorm_1.Column)({ nullable: true }),

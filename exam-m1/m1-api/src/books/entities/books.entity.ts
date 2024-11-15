@@ -15,11 +15,6 @@ export class BookEntity {
   @Column()
   publicationDate: string;
 
-  @Column({ nullable: true })
-  note: number;
-  
-  @Column({ nullable: true })
-  commentaire?: string;
 
   @Column({ nullable: true })
   prix: number;
