@@ -17,7 +17,7 @@ let AuthorsService = class AuthorsService {
     constructor(authorRepository) {
         this.authorRepository = authorRepository;
     }
-    createAuthor(createAuthorDto) {
+    async createAuthor(createAuthorDto) {
         let author = new author_entity_1.AuthorEntity();
         author.id = createAuthorDto.id;
         author.nom = createAuthorDto.nom;
@@ -25,6 +25,7 @@ let AuthorsService = class AuthorsService {
         author.nbr_livres_ecrits = createAuthorDto.nbr_livres_ecrits;
         author.moyenne_avis = createAuthorDto.moyenne_avis;
         this.authorRepository.createAuthor(author);
+        return author.id;
     }
     async getAllAuthors() {
         return this.authorRepository.findAll();
