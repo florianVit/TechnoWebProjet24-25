@@ -7,7 +7,9 @@ export declare class BooksController {
     constructor(booksService: BooksService);
     getAllBooks(): Promise<BookEntity[]>;
     getBookById(id: UUID): Promise<BookEntity>;
-    createBook(createBookDto: CreateBookDto): Promise<BookEntity>;
+    createBook(createBookDto: CreateBookDto): Promise<{
+        id: string;
+    }>;
     deleteBook(id: UUID): Promise<{
         message: string;
     }>;

@@ -14,12 +14,14 @@
     "/books/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
+      "static/css/app/books/page.css",
       "static/chunks/app/books/page.js"
     ],
-    "/books/[id]/page": [
+    "/authors/[id]/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/books/[id]/page.js"
+      "static/css/app/authors/[id]/page.css",
+      "static/chunks/app/authors/[id]/page.js"
     ]
   }
 }

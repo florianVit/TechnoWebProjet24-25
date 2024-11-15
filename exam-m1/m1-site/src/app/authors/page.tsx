@@ -1,12 +1,11 @@
-// Authors.tsx
 "use client";
 
 import React, { useEffect, useState } from 'react';
-import AuthorCard from '../components/AuthorCard';
+import AuthorCard from '../components/Author/AuthorCard';
 import Header from '../components/Header';
-import AuthorForm from './AuthorForm';
-import SearchBar from './SearchBar';
-import styles from '../styles/Authors.module.css';
+import AuthorForm from '../components/Author/AuthorForm';
+import SearchBar from '../components/Author/SearchBar';
+import styles from '../styles/Authors/Authors.module.css';
 
 interface Author {
   id: string;
@@ -16,18 +15,26 @@ interface Author {
   moyenne_avis: number;
 }
 
+interface Book {
+  id: string;
+  title: string;
+  authorId: string;
+}
+
 type SortCriteria = 'name' | 'books' | 'rating';
 
 export default function Authors() {
   const [authors, setAuthors] = useState<Author[]>([]);
+  const [books, setBooks] = useState<Book[]>([]);
   const [isEditing, setIsEditing] = useState(false);
   const [editAuthorId, setEditAuthorId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [sortCriteria, setSortCriteria] = useState<SortCriteria>('name');
-  const [isAscending, setIsAscending] = useState(true);  // New state for sort order
+  const [isAscending, setIsAscending] = useState(true);
 
   useEffect(() => {
     fetchAuthors();
+    fetchBooks();
   }, []);
 
   const fetchAuthors = () => {
@@ -37,10 +44,61 @@ export default function Authors() {
       .catch(error => console.error('Error fetching authors:', error));
   };
 
+  const fetchBooks = () => {
+    fetch('http://localhost:3001/books')
+      .then(response => response.json())
+      .then(data => setBooks(data))
+      .catch(error => console.error('Error fetching books:', error));
+  };
+
+  const handleCreateAuthor = (authorData: any) => {
+    const url = isEditing
+      ? `http://localhost:3001/authors/update-author/${editAuthorId}`
+      : 'http://localhost:3001/authors/create-author';
+  
+    fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(authorData),
+    })
+      .then(response => {
+        if (response.ok) {
+          // If the response is OK, we try to parse it, but we handle the case where there is no body
+          return response.json().catch(() => null);  // Return null if there's no valid JSON
+        } else {
+          throw new Error('Network response was not ok');
+        }
+      })
+      .then(newAuthor => {
+        if (newAuthor) {
+          console.log('Author created:', newAuthor);  // Log the newly created author data
+          setAuthors(prevAuthors => isEditing
+            ? prevAuthors.map(author => (author.id === editAuthorId ? newAuthor : author))
+            : [...prevAuthors, newAuthor]
+          );
+        } else {
+          console.log('No data returned after creation');
+        }
+        fetchAuthors();
+        setIsEditing(false);
+        setEditAuthorId(null);
+      })
+      .catch(error => console.error('Error submitting author data:', error));
+  };  
+
   const deleteAuthor = (id: string) => {
     fetch(`http://localhost:3001/authors/by-id/delete/${id}`, { method: 'DELETE' })
       .then(() => setAuthors(prevAuthors => prevAuthors.filter(author => author.id !== id)))
       .catch(error => console.error('Error deleting author:', error));
+  };
+
+  const triggerEdit = (id: string) => {
+    setIsEditing(true);
+    setEditAuthorId(id);
+  };
+
+  const getBooksCountByAuthor = (authorId: string) => {
+    return books.filter(book => book.authorId === authorId).length;
   };
 
   const filteredAuthors = authors
@@ -52,7 +110,7 @@ export default function Authors() {
       if (sortCriteria === 'name') {
         return a.nom.localeCompare(b.nom) * order;
       } else if (sortCriteria === 'books') {
-        return (b.nbr_livres_ecrits - a.nbr_livres_ecrits) * order;
+        return (getBooksCountByAuthor(b.id) - getBooksCountByAuthor(a.id)) * order;
       } else if (sortCriteria === 'rating') {
         return (b.moyenne_avis - a.moyenne_avis) * order;
       }
@@ -66,7 +124,6 @@ export default function Authors() {
 
       <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
 
-      {/* Sort Dropdown and Order Toggle */}
       <div className={styles["sort-container"]}>
         <label>Sort By: </label>
         <select
@@ -91,18 +148,16 @@ export default function Authors() {
         <div className={styles["authors-list"]}>
           {filteredAuthors.map(author => (
             <AuthorCard
-              key={author.id}
+              biographie={''} key={author.id}
               {...author}
+              nbr_livres_ecrits={getBooksCountByAuthor(author.id)}
               deleteAuthor={deleteAuthor}
-              triggerEdit={() => {
-                setIsEditing(true);
-                setEditAuthorId(author.id);
-              }}
-            />
+              triggerEdit={() => triggerEdit(author.id)}            />
           ))}
         </div>
 
         <AuthorForm
+          handleCreateAuthor={handleCreateAuthor}
           fetchAuthors={fetchAuthors}
           isEditing={isEditing}
           editAuthorId={editAuthorId}

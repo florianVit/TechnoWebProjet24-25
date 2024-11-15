@@ -26,7 +26,8 @@ let BooksService = class BooksService {
         book.prix = createBookDto.prix || null;
         book.description = createBookDto.description || null;
         book.publicationDate = createBookDto.publicationDate;
-        return this.bookRepository.createBook(book);
+        const savedBook = await this.bookRepository.createBook(book);
+        return { id: savedBook.id };
     }
     async getAllBooks() {
         return this.bookRepository.findAll();
