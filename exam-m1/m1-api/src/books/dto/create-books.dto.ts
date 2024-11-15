@@ -16,15 +16,6 @@ export class CreateBookDto {
   publicationDate: string;
 
 
-  //champs optionnels
-  @IsOptional() 
-  @IsNumber()
-  note?: number; 
-
-  @IsOptional() 
-  @IsString()  
-  commentaire?: string;  
-
   @IsOptional() 
   @IsNumber()
   prix?: number;

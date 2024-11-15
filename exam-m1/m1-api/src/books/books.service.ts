@@ -14,8 +14,6 @@ export class BooksService {
     const book = new BookEntity();
     book.title = createBookDto.title;
     book.authorId = createBookDto.authorId;
-    book.note = createBookDto.note || null;
-    book.commentaire = createBookDto.commentaire || null;
     book.prix = createBookDto.prix || null;
     book.description = createBookDto.description || null;
     book.publicationDate = createBookDto.publicationDate;

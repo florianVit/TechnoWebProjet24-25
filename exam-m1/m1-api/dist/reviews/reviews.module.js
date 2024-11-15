@@ -6,25 +6,21 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DatabaseModule = void 0;
+exports.ReviewModule = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
-const author_entity_1 = require("../../authors/author.entity");
-const books_entity_1 = require("../../books/entities/books.entity");
-const review_entity_1 = require("../../reviews/review.entity");
-let DatabaseModule = class DatabaseModule {
+const review_entity_1 = require("./review.entity");
+const books_entity_1 = require("../books/entities/books.entity");
+const reviews_service_1 = require("./reviews.service");
+const reviews_controller_1 = require("./reviews.controller");
+let ReviewModule = class ReviewModule {
 };
-exports.DatabaseModule = DatabaseModule;
-exports.DatabaseModule = DatabaseModule = __decorate([
+exports.ReviewModule = ReviewModule;
+exports.ReviewModule = ReviewModule = __decorate([
     (0, common_1.Module)({
-        imports: [
-            typeorm_1.TypeOrmModule.forRoot({
-                type: 'sqlite',
-                database: 'db',
-                entities: [__dirname + '/**/*.entity{.ts,.js}', author_entity_1.AuthorEntity, books_entity_1.BookEntity, review_entity_1.Review],
-                synchronize: true,
-            }),
-        ],
+        imports: [typeorm_1.TypeOrmModule.forFeature([review_entity_1.Review, books_entity_1.BookEntity])],
+        providers: [reviews_service_1.ReviewService],
+        controllers: [reviews_controller_1.ReviewController],
     })
-], DatabaseModule);
-//# sourceMappingURL=database.module.js.map
+], ReviewModule);
+//# sourceMappingURL=reviews.module.js.map

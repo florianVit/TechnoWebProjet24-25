@@ -9,41 +9,30 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.BookEntity = void 0;
-const review_entity_1 = require("../../reviews/review.entity");
+exports.Review = void 0;
 const typeorm_1 = require("typeorm");
-let BookEntity = class BookEntity {
+const books_entity_1 = require("../books/entities/books.entity");
+let Review = class Review {
 };
-exports.BookEntity = BookEntity;
+exports.Review = Review;
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)('uuid'),
     __metadata("design:type", String)
-], BookEntity.prototype, "id", void 0);
+], Review.prototype, "id", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => books_entity_1.BookEntity, (book) => book.reviews),
+    (0, typeorm_1.JoinColumn)({ name: 'bookId' }),
+    __metadata("design:type", books_entity_1.BookEntity)
+], Review.prototype, "book", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
-    __metadata("design:type", String)
-], BookEntity.prototype, "title", void 0);
-__decorate([
-    (0, typeorm_1.Column)(),
-    __metadata("design:type", String)
-], BookEntity.prototype, "authorId", void 0);
-__decorate([
-    (0, typeorm_1.Column)(),
-    __metadata("design:type", String)
-], BookEntity.prototype, "publicationDate", void 0);
-__decorate([
-    (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", Number)
-], BookEntity.prototype, "prix", void 0);
+], Review.prototype, "rating", void 0);
 __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
-], BookEntity.prototype, "description", void 0);
-__decorate([
-    (0, typeorm_1.OneToMany)(() => review_entity_1.Review, (review) => review.book),
-    __metadata("design:type", Array)
-], BookEntity.prototype, "reviews", void 0);
-exports.BookEntity = BookEntity = __decorate([
+], Review.prototype, "comment", void 0);
+exports.Review = Review = __decorate([
     (0, typeorm_1.Entity)()
-], BookEntity);
-//# sourceMappingURL=books.entity.js.map
+], Review);
+//# sourceMappingURL=review.entity.js.map
