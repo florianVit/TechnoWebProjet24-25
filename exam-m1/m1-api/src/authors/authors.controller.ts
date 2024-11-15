@@ -1,4 +1,4 @@
-import { Controller, Get,Post,Delete, Param, Body } from '@nestjs/common';
+import { Controller, Get, Post, Delete, Put, Param, Body } from '@nestjs/common';
 import { AuthorEntity } from './author.entity';
 import { AuthorsService } from './authors.service';
 import { UUID } from 'crypto';
@@ -42,7 +42,7 @@ export class AuthorsController {
         this.authorsService.deleteAllAuthors();
     }
 
-    @Post('/update-author/:id')//Mettre à jour un auteur
+    @Put('/update-author/:id')//Mettre à jour un auteur
     updateAuthor(@Param('id') id : UUID, @Body() updateAuthorDto) {
         this.authorsService.updateAuthor(id, updateAuthorDto);
     }
