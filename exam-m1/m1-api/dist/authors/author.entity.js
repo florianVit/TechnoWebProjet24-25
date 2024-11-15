@@ -34,6 +34,14 @@ __decorate([
     (0, typeorm_1.Column)({ name: 'moyenne_avis', type: 'int' }),
     __metadata("design:type", Number)
 ], AuthorEntity.prototype, "moyenne_avis", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ name: 'biographie', type: 'varchar' }),
+    __metadata("design:type", String)
+], AuthorEntity.prototype, "biographie", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ name: 'liste_livre', type: 'simple-array', nullable: true }),
+    __metadata("design:type", Array)
+], AuthorEntity.prototype, "liste_livre", void 0);
 exports.AuthorEntity = AuthorEntity = __decorate([
     (0, typeorm_1.Entity)('Author')
 ], AuthorEntity);

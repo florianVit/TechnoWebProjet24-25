@@ -24,6 +24,8 @@ let AuthorsService = class AuthorsService {
         author.photo = createAuthorDto.photo;
         author.nbr_livres_ecrits = createAuthorDto.nbr_livres_ecrits;
         author.moyenne_avis = createAuthorDto.moyenne_avis;
+        author.biographie = createAuthorDto.biographie;
+        author.liste_livre = createAuthorDto.liste_livre;
         this.authorRepository.createAuthor(author);
         return author.id;
     }

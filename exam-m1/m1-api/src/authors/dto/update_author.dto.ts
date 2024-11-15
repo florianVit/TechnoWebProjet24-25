@@ -1,4 +1,4 @@
-import { IsUUID, IsString, IsNumber, IsOptional } from "class-validator";
+import { IsUUID, IsString, IsNumber, IsOptional, IsArray } from "class-validator";
 import { UUID } from "crypto";
 
 export class UpdateAuthorDto {
@@ -20,4 +20,12 @@ export class UpdateAuthorDto {
     @IsOptional()
     @IsNumber()
     moyenne_avis?: number;
+
+    @IsOptional()
+    @IsString()
+    biographie?: string;
+
+    @IsOptional()
+    @IsArray()
+    liste_livre?: string[];
 }
