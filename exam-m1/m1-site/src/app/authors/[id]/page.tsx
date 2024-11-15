@@ -9,7 +9,7 @@ interface AuthorDetails {
   nom: string;
   photo: string;
   moyenne_avis: number;
-  bookIds: string[];
+  liste_livre: string[];  // This is the correct field, replaced bookIds with liste_livre
 }
 
 interface Book {
@@ -30,22 +30,31 @@ const AuthorDetailsPage: FC = () => {
     fetch(`http://localhost:3001/authors/by-id/find/${id}`)
       .then(response => response.json())
       .then(data => {
+        console.log('Fetched Author Data:', data); // Debugging log
         setAuthor(data);
-        loadBooksByIds(data.bookIds);
+        if (data.liste_livre) {
+          loadBooksByIds(data.liste_livre); // Use liste_livre instead of bookIds
+        } else {
+          console.error("Error: liste_livre is undefined.");
+        }
       })
       .catch(error => console.error("Error fetching author:", error));
   };
 
-  const loadBooksByIds = (bookIds: string[]) => {
-    const bookFetches = bookIds.map(bookId =>
-      fetch(`http://localhost:3001/books/${bookId}`)
-        .then(res => res.json())
-        .catch(error => console.error(`Error fetching book with ID ${bookId}:`, error))
-    );
+  const loadBook = (bookId: string): Promise<Book | null> => {
+    return fetch(`http://localhost:3001/books/${bookId}`)
+      .then(response => response.json())
+      .catch(error => {
+        console.error(`Error fetching book with ID ${bookId}:`, error);
+        return null;
+      });
+  };
 
+  const loadBooksByIds = (bookIds: string[]) => {
+    const bookFetches = bookIds.map(bookId => loadBook(bookId));
     Promise.all(bookFetches)
       .then((booksData) => {
-        setBooks(booksData.filter(Boolean));
+        setBooks(booksData.filter(Boolean) as Book[]);
       })
       .catch(error => console.error("Error fetching books:", error));
   };
@@ -67,7 +76,7 @@ const AuthorDetailsPage: FC = () => {
       <h1>Author Details</h1>
       {author ? (
         <div>
-          <img src={author.photo} alt={`${author.nom}'s photo`} style={{ maxWidth: '300px', height: 'auto' }}/>
+          <img src={author.photo} alt={`${author.nom}'s photo`} style={{ maxWidth: '300px', height: 'auto' }} />
           <h2>{author.nom}</h2>
           <p>Average Rating: {author.moyenne_avis}</p>
 

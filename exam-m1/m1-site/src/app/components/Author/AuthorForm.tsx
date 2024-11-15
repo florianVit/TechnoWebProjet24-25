@@ -85,29 +85,6 @@ export default function AuthorForm({
         className={styles["form-input"]}
       />
 
-      {/* <label htmlFor="nbrLivresEcrits" className={styles["form-label"]}>Number of Books Written</label>
-      <input
-        type="number"
-        id="nbrLivresEcrits"
-        placeholder="Enter the number of books written"
-        value={nbrLivresEcrits}
-        onChange={(e) => setNbrLivresEcrits(Number(e.target.value))}
-        required
-        className={styles["form-input"]}
-      />
-
-      <label htmlFor="moyenneAvis" className={styles["form-label"]}>Average Rating</label>
-      <input
-        type="number"
-        id="moyenneAvis"
-        placeholder="Enter the author's average rating"
-        value={moyenneAvis}
-        onChange={(e) => setMoyenneAvis(Number(e.target.value))}
-        step="0.1"
-        required
-        className={styles["form-input"]}
-      /> */}
-
       <button type="submit" className={styles["form-button"]}>
         {isEditing ? 'Edit Author' : 'Add Author'}
       </button>
