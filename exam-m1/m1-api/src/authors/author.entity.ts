@@ -1,4 +1,5 @@
 import { UUID } from 'crypto';
+import { BookEntity } from 'src/books/entities/books.entity';
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 export type AuthorId = UUID;
@@ -19,4 +20,11 @@ export class AuthorEntity {
 
     @Column({ name: 'moyenne_avis', type: 'int' })
     moyenne_avis: number;
+
+    @Column({ name: 'biographie', type: 'varchar' })
+    biographie: string;
+
+    @Column({ name: 'liste_livre', type: 'simple-array', nullable: true })
+    liste_livre?: BookEntity[];
+
 }
