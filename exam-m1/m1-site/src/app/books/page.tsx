@@ -25,7 +25,9 @@ export default function Books() {
 
   // on charge les livres au chargement de la page
   useEffect(() => {
-    loadBooks();
+    loadBooks().catch(error => {
+      console.error("Failed to load books:", error);
+    });
   }, []);
 
   // Gère le changement de la barre de recherche

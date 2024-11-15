@@ -1,4 +1,3 @@
-
 import axios from "axios";
 import { useState } from "react";
 import { BookModel } from "../models/BookModel";
@@ -34,7 +33,8 @@ export const useBookProviders = () => {
         nom: name,
         photo: '',
         nbr_livres_ecrits: 0,
-        moyenne_avis: 0
+        moyenne_avis: 0,
+        biographie: '' 
       });
     } catch (error) {
       console.error(error);
@@ -53,15 +53,20 @@ export const useBookProviders = () => {
     }
   };
 
-  const incrementAuthorBooksCount = async (authorId: string) => {
+  const incrementAuthorBooksCount = async (authorId: string, book: { id: string, title: string, publicationDate: string }) => {
     try {
       const response = await axios.get(`http://localhost:3001/authors/by-id/find/${authorId}`);
       const newNbrLivresEcrits = response.data.nbr_livres_ecrits + 1;
+      const updatedListeLivre = response.data.liste_livre ? [...response.data.liste_livre, book] : [book];
+      console.log("Updated liste livre:");
+      console.log(updatedListeLivre);
       await axios.put(`http://localhost:3001/authors/update-author/${authorId}`, {
         nom: response.data.nom,
         photo: response.data.photo,
         nbr_livres_ecrits: newNbrLivresEcrits,
-        moyenne_avis: response.data.moyenne_avis
+        moyenne_avis: response.data.moyenne_avis,
+        biographie: response.data.biographie,
+        liste_livre: updatedListeLivre
       });
     } catch (error) {
       console.error(error);
@@ -80,17 +85,18 @@ export const useBookProviders = () => {
       return;
     }
 
-    axios.post('http://localhost:3001/books', {
-      title,
-      publicationDate,
-      authorId: authorId.toString()
-    }).then(() => {
+    try {
+      const response = await axios.post('http://localhost:3001/books', {
+        title,
+        publicationDate,
+        authorId: authorId.toString()
+      });
+      const book = { id: response.data.id, title, publicationDate };
+      await incrementAuthorBooksCount(authorId, book);
       loadBooks();
-    }).catch((error) => {
+    } catch (error) {
       console.error(error);
-    });
-
-    incrementAuthorBooksCount(authorId);
+    }
   };
 
   return {
