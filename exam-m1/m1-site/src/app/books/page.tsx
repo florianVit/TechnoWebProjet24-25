@@ -179,22 +179,38 @@ export default function Books() {
       <Modal
         isOpen={isModalOpen}
         title="Créer un nouveau livre"
-        onCancel={() => setIsModalOpen(false)}
-        onClose={() => setIsModalOpen(false)}
-        onOk={() => onCreate(title, publicationDate, author)}
+        onCancel={() => {
+          setIsModalOpen(false);
+          setTitle("");
+          setPublicationDate("");
+          setAuthor("");
+        }}
+        onClose={() => {
+          setIsModalOpen(false);
+          setTitle("");
+          setPublicationDate("");
+          setAuthor("");
+        }}
+        onOk={() => {
+          onCreate(title, publicationDate, author);
+          setIsModalOpen(false);
+          setTitle("");
+          setPublicationDate("");
+          setAuthor("");
+        }}
       >
         <div>
           <label>
-            Title:
-            <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
+        Title:
+        <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
           </label>
           <label>
-            Publication Date:
-            <input type="date" value={publicationDate} onChange={(e) => setPublicationDate(e.target.value)} />
+        Publication Date:
+        <input type="date" value={publicationDate} onChange={(e) => setPublicationDate(e.target.value)} />
           </label>
           <label>
-            Author:
-            <input type="text" value={author} onChange={(e) => setAuthor(e.target.value)} />
+        Author:
+        <input type="text" value={author} onChange={(e) => setAuthor(e.target.value)} />
           </label>
         </div>
       </Modal>
