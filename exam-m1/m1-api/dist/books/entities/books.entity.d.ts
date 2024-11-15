@@ -1,3 +1,4 @@
+import { Review } from 'src/reviews/review.entity';
 export declare class BookEntity {
     id: string;
     title: string;
@@ -7,4 +8,5 @@ export declare class BookEntity {
     commentaire?: string;
     prix: number;
     description: string;
+    reviews: Review[];
 }

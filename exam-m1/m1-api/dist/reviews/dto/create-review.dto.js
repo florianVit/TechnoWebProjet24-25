@@ -9,34 +9,22 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CreateBookDto = void 0;
+exports.CreateReviewDto = void 0;
 const class_validator_1 = require("class-validator");
-class CreateBookDto {
+class CreateReviewDto {
 }
-exports.CreateBookDto = CreateBookDto;
+exports.CreateReviewDto = CreateReviewDto;
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.IsString)(),
-    __metadata("design:type", String)
-], CreateBookDto.prototype, "title", void 0);
-__decorate([
-    (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.IsString)(),
-    __metadata("design:type", String)
-], CreateBookDto.prototype, "authorId", void 0);
-__decorate([
-    (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.IsDateString)(),
-    __metadata("design:type", String)
-], CreateBookDto.prototype, "publicationDate", void 0);
-__decorate([
-    (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsNumber)(),
+    (0, class_validator_1.Min)(1),
+    (0, class_validator_1.Max)(5),
     __metadata("design:type", Number)
-], CreateBookDto.prototype, "prix", void 0);
+], CreateReviewDto.prototype, "rating", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
-], CreateBookDto.prototype, "description", void 0);
-//# sourceMappingURL=create-books.dto.js.map
+], CreateReviewDto.prototype, "comment", void 0);
+//# sourceMappingURL=create-review.dto.js.map

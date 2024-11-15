@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BookEntity = void 0;
+const review_entity_1 = require("../../reviews/review.entity");
 const typeorm_1 = require("typeorm");
 let BookEntity = class BookEntity {
 };
@@ -46,6 +47,10 @@ __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
 ], BookEntity.prototype, "description", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => review_entity_1.Review, (review) => review.book),
+    __metadata("design:type", Array)
+], BookEntity.prototype, "reviews", void 0);
 exports.BookEntity = BookEntity = __decorate([
     (0, typeorm_1.Entity)()
 ], BookEntity);
