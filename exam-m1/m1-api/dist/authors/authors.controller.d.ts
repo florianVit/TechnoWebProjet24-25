@@ -7,7 +7,7 @@ export declare class AuthorsController {
     getAllAuthors(): Promise<AuthorEntity[]>;
     getAuthorById(id: UUID): Promise<AuthorEntity>;
     getAuthorByName(nom: string): Promise<AuthorEntity[]>;
-    createAuthor(createAuthorDto: any): void;
+    createAuthor(createAuthorDto: any): Promise<UUID>;
     deleteAuthor(id: UUID): void;
     deleteAllAuthors(): void;
     updateAuthor(id: UUID, updateAuthorDto: any): void;
