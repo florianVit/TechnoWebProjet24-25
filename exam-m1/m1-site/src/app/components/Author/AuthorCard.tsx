@@ -8,6 +8,7 @@ interface AuthorCardProps {
   photo: string;
   nbr_livres_ecrits: number;
   moyenne_avis: number;
+  biographie: string; // Add biographie to props
   deleteAuthor: (id: string) => void;
   triggerEdit: () => void;
 }
@@ -18,6 +19,7 @@ export default function AuthorCard({
   photo,
   nbr_livres_ecrits,
   moyenne_avis,
+  biographie, // Include biographie in props
   deleteAuthor,
   triggerEdit
 }: AuthorCardProps) {
@@ -29,6 +31,7 @@ export default function AuthorCard({
       <h3>{nom}</h3>
       <p>Books Written: {nbr_livres_ecrits}</p>
       <p>Average Rating: {moyenne_avis}</p>
+      <p className={styles["author-biography"]}>{biographie}</p> {/* Display biography */}
 
       <div className={styles["author-buttons"]}>
         <button onClick={() => router.push(`/authors/${id}`)} className={styles["details-button"]}>

@@ -51,7 +51,7 @@ export default function Authors() {
       .catch(error => console.error('Error fetching books:', error));
   };
 
-  const handleCreateAuthor = (authorData: { nom: string; photo: string; nbr_livres_ecrits: number; moyenne_avis: number; }) => {
+  const handleCreateAuthor = (authorData: any) => {
     const url = isEditing
       ? `http://localhost:3001/authors/update-author/${editAuthorId}`
       : 'http://localhost:3001/authors/create-author';
@@ -61,12 +61,24 @@ export default function Authors() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(authorData),
     })
-      .then(response => response.json())
+      .then(response => {
+        if (response.ok) {
+          // If the response is OK, we try to parse it, but we handle the case where there is no body
+          return response.json().catch(() => null);  // Return null if there's no valid JSON
+        } else {
+          throw new Error('Network response was not ok');
+        }
+      })
       .then(newAuthor => {
-        setAuthors(prevAuthors => isEditing
-          ? prevAuthors.map(author => (author.id === editAuthorId ? newAuthor : author))
-          : [...prevAuthors, newAuthor]
-        );
+        if (newAuthor) {
+          console.log('Author created:', newAuthor);  // Log the newly created author data
+          setAuthors(prevAuthors => isEditing
+            ? prevAuthors.map(author => (author.id === editAuthorId ? newAuthor : author))
+            : [...prevAuthors, newAuthor]
+          );
+        } else {
+          console.log('No data returned after creation');
+        }
         fetchAuthors();
         setIsEditing(false);
         setEditAuthorId(null);
@@ -136,12 +148,11 @@ export default function Authors() {
         <div className={styles["authors-list"]}>
           {filteredAuthors.map(author => (
             <AuthorCard
-              key={author.id}
+              biographie={''} key={author.id}
               {...author}
               nbr_livres_ecrits={getBooksCountByAuthor(author.id)}
               deleteAuthor={deleteAuthor}
-              triggerEdit={() => triggerEdit(author.id)}
-            />
+              triggerEdit={() => triggerEdit(author.id)}            />
           ))}
         </div>
 

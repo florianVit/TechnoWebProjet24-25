@@ -9,7 +9,8 @@ interface AuthorDetails {
   nom: string;
   photo: string;
   moyenne_avis: number;
-  liste_livre: string[];  // This is the correct field, replaced bookIds with liste_livre
+  biographie: string;  // Added biographie
+  liste_livre: string[];  // Corrected field name (liste_livre instead of bookIds)
 }
 
 interface Book {
@@ -26,21 +27,33 @@ const AuthorDetailsPage: FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
 
+  // Function to load author data
   const loadAuthor = () => {
     fetch(`http://localhost:3001/authors/by-id/find/${id}`)
       .then(response => response.json())
       .then(data => {
-        console.log('Fetched Author Data:', data); // Debugging log
-        setAuthor(data);
-        if (data.liste_livre) {
-          loadBooksByIds(data.liste_livre); // Use liste_livre instead of bookIds
+        console.log('Fetched Author Data:', data); // Debugging log for author data
+
+        if (data) {
+          setAuthor(data);
+          
+          // Check if the 'liste_livre' field is available
+          if (data.liste_livre) {
+            console.log('Books list:', data.liste_livre); // Log the books list
+            loadBooksByIds(data.liste_livre); // Load books by the given list of book IDs
+          } else {
+            console.error("Error: liste_livre is undefined.");
+          }
         } else {
-          console.error("Error: liste_livre is undefined.");
+          console.error("Error: No data returned from the server.");
         }
       })
-      .catch(error => console.error("Error fetching author:", error));
+      .catch(error => {
+        console.error("Error fetching author:", error);
+      });
   };
 
+  // Function to load a single book by ID
   const loadBook = (bookId: string): Promise<Book | null> => {
     return fetch(`http://localhost:3001/books/${bookId}`)
       .then(response => response.json())
@@ -50,23 +63,34 @@ const AuthorDetailsPage: FC = () => {
       });
   };
 
+  // Function to load multiple books by their IDs
   const loadBooksByIds = (bookIds: string[]) => {
-    const bookFetches = bookIds.map(bookId => loadBook(bookId));
-    Promise.all(bookFetches)
-      .then((booksData) => {
-        setBooks(booksData.filter(Boolean) as Book[]);
-      })
-      .catch(error => console.error("Error fetching books:", error));
+    if (bookIds && bookIds.length > 0) {
+      const bookFetches = bookIds.map(bookId => loadBook(bookId));
+      Promise.all(bookFetches)
+        .then((booksData) => {
+          // Filter out any invalid (null) book responses
+          setBooks(booksData.filter(Boolean) as Book[]);
+        })
+        .catch(error => {
+          console.error("Error fetching books:", error);
+          setBooks([]); // Handle error by showing no books or a fallback message
+        });
+    } else {
+      console.error("Error: bookIds list is empty or invalid.");
+    }
   };
 
+  // Function to handle deletion of an author
   const handleDelete = () => {
     fetch(`http://localhost:3001/authors/by-id/delete/${id}`, { method: 'DELETE' })
       .then(() => {
-        router.push('/authors');
+        router.push('/authors'); // Redirect to authors list after deletion
       })
       .catch(error => console.error("Error deleting author:", error));
   };
 
+  // Fetch author data when the component mounts or the 'id' changes
   useEffect(() => {
     loadAuthor();
   }, [id]);
@@ -79,6 +103,10 @@ const AuthorDetailsPage: FC = () => {
           <img src={author.photo} alt={`${author.nom}'s photo`} style={{ maxWidth: '300px', height: 'auto' }} />
           <h2>{author.nom}</h2>
           <p>Average Rating: {author.moyenne_avis}</p>
+
+          {/* Display Biography */}
+          <h3>Biography</h3>
+          <p>{author.biographie}</p>
 
           <h3>Books Written:</h3>
           {books.length > 0 ? (
@@ -96,12 +124,14 @@ const AuthorDetailsPage: FC = () => {
             <p>This author has not written any books yet.</p>
           )}
 
+          {/* Delete Author Button */}
           <Button onClick={() => setIsModalOpen(true)}>Delete Author</Button>
         </div>
       ) : (
         <p>Loading...</p>
       )}
 
+      {/* Confirmation Modal for Deletion */}
       <Modal
         isOpen={isModalOpen}
         title="Delete Confirmation"

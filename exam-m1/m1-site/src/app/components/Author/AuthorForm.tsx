@@ -7,6 +7,7 @@ interface AuthorFormProps {
     photo: string;
     nbr_livres_ecrits: number;
     moyenne_avis: number;
+    biographie: string; // Include biographie in the author data
   }) => void;
   fetchAuthors: () => void;
   isEditing: boolean;
@@ -27,11 +28,12 @@ export default function AuthorForm({
   const [photo, setPhoto] = useState('');
   const [nbrLivresEcrits, setNbrLivresEcrits] = useState(0);
   const [moyenneAvis, setMoyenneAvis] = useState(0);
+  const [biographie, setBiographie] = useState('');  // Added state for biographie
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    const authorData = { nom, photo, nbr_livres_ecrits: nbrLivresEcrits, moyenne_avis: moyenneAvis };
+    const authorData = { nom, photo, nbr_livres_ecrits: nbrLivresEcrits, moyenne_avis: moyenneAvis, biographie };
     handleCreateAuthor(authorData);
     resetForm();
   };
@@ -41,6 +43,7 @@ export default function AuthorForm({
     setPhoto('');
     setNbrLivresEcrits(0);
     setMoyenneAvis(0);
+    setBiographie('');
     setIsEditing(false);
     setEditAuthorId(null);
   };
@@ -54,6 +57,7 @@ export default function AuthorForm({
           setPhoto(data.photo);
           setNbrLivresEcrits(data.nbr_livres_ecrits);
           setMoyenneAvis(data.moyenne_avis);
+          setBiographie(data.biographie); // Load biographie if editing
         })
         .catch(error => console.error('Error fetching author for edit:', error));
     }
@@ -83,6 +87,16 @@ export default function AuthorForm({
         onChange={(e) => setPhoto(e.target.value)}
         required
         className={styles["form-input"]}
+      />
+
+      <label htmlFor="biographie" className={styles["form-label"]}>Biography</label>
+      <textarea
+        id="biographie"
+        placeholder="Enter the author's biography"
+        value={biographie}
+        onChange={(e) => setBiographie(e.target.value)}
+        required
+        className={styles["form-textarea"]}
       />
 
       <button type="submit" className={styles["form-button"]}>
