@@ -17,8 +17,6 @@ Le back-end est écrit avec le framework NestJS, et le front-end avec React. Le 
   - **Liste des auteurs**
 
 ### <mark>Design du Menu</mark> 
-- voila quoi
-
 ---
 
 ### <mark>Bibliothèque</mark> :
@@ -106,23 +104,19 @@ Cette page permet d'afficher les informations détaillées sur un auteur.
 - **Suppression d’un auteur** : L’utilisateur peut supprimer un auteur avec une modale de confirmation. Lors de la suppression, tous les livres associés à cet auteur seront également supprimés (avec confirmation).
 
 ---
-### Front :
+### Front (Léo, Paul)
 * Providers 
 * Composants 
 * Modèles 
 * Pages 
 
-### Back-end
+### Back-end (Florian, Julien)
 * Controller 
 * Service 
 * Repository 
 * DTO 
 * Presenter 
 * Modèles 
-
-
-### Quelques fonctionnalités supplémentaires 🔝
-
 
 <br>
 
