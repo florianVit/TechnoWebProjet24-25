@@ -34,9 +34,9 @@ export default function Books() {
   const loadBooks = async () => {
     try {
       const response = await axios.get<BookModel[]>('http://localhost:3001/books');
-      
+
       const booksWithAuthorNames = await Promise.all(response.data.map(async (book) => {
-        
+
         const authorName = await getAuthorNameById(book.authorId.toString());
         return { ...book, authorName };
       }));
@@ -93,6 +93,26 @@ export default function Books() {
     }
   };
 
+  const incrementAuthorBooksCount = async (authorId: string) => {
+    try {
+      // récupère les informations de l'auteur 
+      const response = await axios.get(`http://localhost:3001/authors/by-id/find/${authorId}`);
+
+      // incrémente le nombre de livres écrits
+      const newNbrLivresEcrits = response.data.nbr_livres_ecrits + 1;
+
+      // met à jour l'auteur
+      await axios.put(`http://localhost:3001/authors/update-author/${authorId}`, {
+        nom: response.data.nom,
+        photo: response.data.photo,
+        nbr_livres_ecrits: newNbrLivresEcrits,
+        moyenne_avis: response.data.moyenne_avis
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const onCreate = async (title: string, publicationDate: string, authorName: string) => {
     let authorId = await getAuthorIdByName(authorName);
     if (!authorId) {
@@ -114,6 +134,8 @@ export default function Books() {
     }).catch((error) => {
       console.error(error);
     });
+
+    incrementAuthorBooksCount(authorId);
 
     // Création temporaires de livres en attendant l'API
     /*
@@ -162,18 +184,18 @@ export default function Books() {
         onOk={() => onCreate(title, publicationDate, author)}
       >
         <div>
-        <label>
-          Title:
-          <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
-        </label>
-        <label>
-          Publication Date:
-          <input type="date" value={publicationDate} onChange={(e) => setPublicationDate(e.target.value)} />
-        </label>
-        <label>
-          Author:
-          <input type="text" value={author} onChange={(e) => setAuthor(e.target.value)} />
-        </label>
+          <label>
+            Title:
+            <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
+          </label>
+          <label>
+            Publication Date:
+            <input type="date" value={publicationDate} onChange={(e) => setPublicationDate(e.target.value)} />
+          </label>
+          <label>
+            Author:
+            <input type="text" value={author} onChange={(e) => setAuthor(e.target.value)} />
+          </label>
         </div>
       </Modal>
 

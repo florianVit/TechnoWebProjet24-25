@@ -83,7 +83,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], AuthorsController.prototype, "deleteAllAuthors", null);
 __decorate([
-    (0, common_1.Post)('/update-author/:id'),
+    (0, common_1.Put)('/update-author/:id'),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
