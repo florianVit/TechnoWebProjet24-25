@@ -2,6 +2,13 @@ import React, { useState, useEffect } from 'react';
 import styles from '../../styles/Authors/Authors.module.css';
 
 interface AuthorFormProps {
+  handleCreateAuthor: (authorData: {
+    nom: string;
+    photo: string;
+    nbr_livres_ecrits: number;
+    moyenne_avis: number;
+    biographie: string; // Include biographie in the author data
+  }) => void;
   fetchAuthors: () => void;
   isEditing: boolean;
   editAuthorId: string | null;
@@ -10,6 +17,7 @@ interface AuthorFormProps {
 }
 
 export default function AuthorForm({
+  handleCreateAuthor,
   fetchAuthors,
   isEditing,
   editAuthorId,
@@ -20,29 +28,14 @@ export default function AuthorForm({
   const [photo, setPhoto] = useState('');
   const [nbrLivresEcrits, setNbrLivresEcrits] = useState(0);
   const [moyenneAvis, setMoyenneAvis] = useState(0);
+  const [biographie, setBiographie] = useState('');  // Added state for biographie
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    const authorData = { nom, photo, nbr_livres_ecrits: nbrLivresEcrits, moyenne_avis: moyenneAvis };
-
-    const url = isEditing
-      ? `http://localhost:3001/authors/by-id/update/${editAuthorId}`
-      : 'http://localhost:3001/authors/create-author';
-
-    const method = isEditing ? 'PUT' : 'POST';
-
-    fetch(url, {
-      method,
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(authorData),
-    })
-      .then(response => response.json())
-      .then(() => {
-        fetchAuthors();
-        resetForm();
-      })
-      .catch(error => console.error('Error submitting author data:', error));
+    const authorData = { nom, photo, nbr_livres_ecrits: nbrLivresEcrits, moyenne_avis: moyenneAvis, biographie };
+    handleCreateAuthor(authorData);
+    resetForm();
   };
 
   const resetForm = () => {
@@ -50,23 +43,32 @@ export default function AuthorForm({
     setPhoto('');
     setNbrLivresEcrits(0);
     setMoyenneAvis(0);
+    setBiographie('');
     setIsEditing(false);
     setEditAuthorId(null);
   };
 
   useEffect(() => {
     if (isEditing && editAuthorId) {
-      // Fetch and prefill data for editing
-      // Example fetching logic, you would replace this with the actual data fetching code
+      fetch(`http://localhost:3001/authors/by-id/${editAuthorId}`)
+        .then(response => response.json())
+        .then(data => {
+          setNom(data.nom);
+          setPhoto(data.photo);
+          setNbrLivresEcrits(data.nbr_livres_ecrits);
+          setMoyenneAvis(data.moyenne_avis);
+          setBiographie(data.biographie); // Load biographie if editing
+        })
+        .catch(error => console.error('Error fetching author for edit:', error));
     }
   }, [isEditing, editAuthorId]);
 
   return (
     <form onSubmit={handleSubmit} className={styles["add-author-form"]}>
-        <h3 className={styles["form-title"]}>{isEditing ? 'Edit Author' : 'Add a New Author'}</h3>
-        
-        <label htmlFor="nom" className={styles["form-label"]}>Author Name</label>
-        <input
+      <h3 className={styles["form-title"]}>{isEditing ? 'Edit Author' : 'Add a New Author'}</h3>
+
+      <label htmlFor="nom" className={styles["form-label"]}>Author Name</label>
+      <input
         type="text"
         id="nom"
         placeholder="Enter the author's name"
@@ -74,10 +76,10 @@ export default function AuthorForm({
         onChange={(e) => setNom(e.target.value)}
         required
         className={styles["form-input"]}
-        />
-        
-        <label htmlFor="photo" className={styles["form-label"]}>Photo URL</label>
-        <input
+      />
+
+      <label htmlFor="photo" className={styles["form-label"]}>Photo URL</label>
+      <input
         type="text"
         id="photo"
         placeholder="Enter the URL of the author's photo"
@@ -85,37 +87,21 @@ export default function AuthorForm({
         onChange={(e) => setPhoto(e.target.value)}
         required
         className={styles["form-input"]}
-        />
-        
-        <label htmlFor="nbrLivresEcrits" className={styles["form-label"]}>Number of Books Written</label>
-        <input
-        type="number"
-        id="nbrLivresEcrits"
-        placeholder="Enter the number of books written"
-        value={nbrLivresEcrits}
-        onChange={(e) => setNbrLivresEcrits(Number(e.target.value))}
+      />
+
+      <label htmlFor="biographie" className={styles["form-label"]}>Biography</label>
+      <textarea
+        id="biographie"
+        placeholder="Enter the author's biography"
+        value={biographie}
+        onChange={(e) => setBiographie(e.target.value)}
         required
-        className={styles["form-input"]}
-        />
-        
-        <label htmlFor="moyenneAvis" className={styles["form-label"]}>Average Rating</label>
-        <input
-        type="number"
-        id="moyenneAvis"
-        placeholder="Enter the author's average rating"
-        value={moyenneAvis}
-        onChange={(e) => setMoyenneAvis(Number(e.target.value))}
-        step="0.1"
-        required
-        className={styles["form-input"]}
-        />
-        
-        <button
-        type="submit"
-        className={styles["form-button"]}
-        >
+        className={styles["form-textarea"]}
+      />
+
+      <button type="submit" className={styles["form-button"]}>
         {isEditing ? 'Edit Author' : 'Add Author'}
-        </button>
+      </button>
     </form>
-);
+  );
 }

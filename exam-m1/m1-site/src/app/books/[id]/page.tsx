@@ -43,7 +43,7 @@ const BookDetailsPage: FC = () => {
             { rating: 2, comment: "Not what I expected.", date: new Date('2023-01-04') },
             { rating: 1, comment: "Did not enjoy it.", date: new Date('2023-01-05') },
         ];
-        setReviews(tempReviews.sort((a, b) => sortOrder === 'asc' ? a.date - b.date : b.date - a.date));
+        setReviews(tempReviews.sort((a, b) => sortOrder === 'asc' ? a.date.getTime() - b.date.getTime() : b.date.getTime() - a.date.getTime()));
     }
 
     const handleDelete = () => {

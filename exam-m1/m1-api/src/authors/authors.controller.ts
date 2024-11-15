@@ -26,8 +26,9 @@ export class AuthorsController {
     }
 
     @Post('/create-author')//Créer un nouvel auteur
-    createAuthor(@Body() createAuthorDto){
-        this.authorsService.createAuthor(createAuthorDto); //On appelle la fonction createAuthor du service 
+    async createAuthor(@Body() createAuthorDto) : Promise<UUID> {
+        let id = this.authorsService.createAuthor(createAuthorDto); //On appelle la fonction createAuthor du service 
+        return id;
         //avec comme paramètre le createAuthorDto qui contient les infos de l'auteur à  créer
     }
     
@@ -36,7 +37,7 @@ export class AuthorsController {
         this.authorsService.deleteAuthor(id);
     }   
     
-    @Delete('/select-all/delete')//Supprimer un auteur
+    @Delete('/select-all/delete')//Supprimer les auteurs
     deleteAllAuthors() {
         this.authorsService.deleteAllAuthors();
     }

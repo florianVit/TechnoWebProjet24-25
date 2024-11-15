@@ -28,8 +28,9 @@ let AuthorsController = class AuthorsController {
     getAuthorByName(nom) {
         return this.authorsService.getAuthorByName(nom);
     }
-    createAuthor(createAuthorDto) {
-        this.authorsService.createAuthor(createAuthorDto);
+    async createAuthor(createAuthorDto) {
+        let id = this.authorsService.createAuthor(createAuthorDto);
+        return id;
     }
     deleteAuthor(id) {
         this.authorsService.deleteAuthor(id);
@@ -67,7 +68,7 @@ __decorate([
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], AuthorsController.prototype, "createAuthor", null);
 __decorate([
     (0, common_1.Delete)('/by-id/delete/:id'),
