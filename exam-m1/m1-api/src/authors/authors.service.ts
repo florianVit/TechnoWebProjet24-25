@@ -8,7 +8,7 @@ import { UUID } from 'crypto';
 export class AuthorsService {
     constructor(private readonly authorRepository: AuthorRepository) {}
 
-    createAuthor(createAuthorDto: CreateAuthorDto) {
+    async createAuthor(createAuthorDto: CreateAuthorDto) : Promise<UUID> {
         let author = new AuthorEntity();
         author.id = createAuthorDto.id;
         author.nom = createAuthorDto.nom;
@@ -18,6 +18,7 @@ export class AuthorsService {
 
         //On met dans le repository avec le createAuthor de AuthorRepository
         this.authorRepository.createAuthor(author);
+        return author.id;
     }
     async getAllAuthors(): Promise<AuthorEntity[]> {
         return this.authorRepository.findAll();
