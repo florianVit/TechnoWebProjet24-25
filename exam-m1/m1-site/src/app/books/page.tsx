@@ -5,13 +5,13 @@ import { BookModel } from "../models/BookModel";
 import { BookCard } from "../components/Book/BookCard";
 import { SearchBarBook } from "../components/Book/SearchBar";
 import { SortBarBook } from "../components/Book/SortBarBook";
-//import { ModalCreateBook } from "../components/ModalCreateBook";
 import { Modal } from "../components/Book/Modal";
 import { Button } from "../components/Book/Button";
 import Header from "../components/Header";
+import { CreateBookForm } from "../components/Book/CreateBookForm";
+import { useBookProviders } from "../providers/books";
 
 export default function Books() {
-  const [books, setBooks] = useState<BookModel[]>([]);
   const [authors, setAuthors] = useState([]);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [sortCriteria, setSortCriteria] = useState<string>('title');
@@ -21,31 +21,7 @@ export default function Books() {
   const [author, setAuthor] = useState("");
   const [publicationDate, setPublicationDate] = useState("");
 
-  const getAuthorNameById = async (id: string) => {
-    try {
-      const response = await axios.get(`http://localhost:3001/authors/by-id/find/${id}`);
-      return response.data.nom;
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  // Récupère les livres depuis l'API
-  const loadBooks = async () => {
-    try {
-      const response = await axios.get<BookModel[]>('http://localhost:3001/books');
-
-      const booksWithAuthorNames = await Promise.all(response.data.map(async (book) => {
-
-        const authorName = await getAuthorNameById(book.authorId.toString());
-        return { ...book, authorName };
-      }));
-      console.log("books ", booksWithAuthorNames);
-      setBooks(booksWithAuthorNames);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const { books, loadBooks, onCreate } = useBookProviders();
 
   // on charge les livres au chargement de la page
   useEffect(() => {
@@ -65,91 +41,6 @@ export default function Books() {
   // Gère le changement d'ordre de tri
   const handleSortOrderChange = (event: ChangeEvent<HTMLSelectElement>) => {
     setSortOrder(event.target.value);
-  };
-
-  const createAuthor = async (name: string) => {
-    try {
-      const response = await axios.post('http://localhost:3001/authors/create-author', {
-        nom: name,
-        photo: '',
-        nbr_livres_ecrits: 0,
-        moyenne_avis: 0
-      });
-      //return response.data.id;
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const getAuthorIdByName = async (name: string) => {
-    try {
-      const response = await axios.get(`http://localhost:3001/authors/by-name/find/${name}`);
-      if (response.data.length > 0) {
-        return response.data[0].id
-      }
-      return null;
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const incrementAuthorBooksCount = async (authorId: string) => {
-    try {
-      // récupère les informations de l'auteur 
-      const response = await axios.get(`http://localhost:3001/authors/by-id/find/${authorId}`);
-
-      // incrémente le nombre de livres écrits
-      const newNbrLivresEcrits = response.data.nbr_livres_ecrits + 1;
-
-      // met à jour l'auteur
-      await axios.put(`http://localhost:3001/authors/update-author/${authorId}`, {
-        nom: response.data.nom,
-        photo: response.data.photo,
-        nbr_livres_ecrits: newNbrLivresEcrits,
-        moyenne_avis: response.data.moyenne_avis
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const onCreate = async (title: string, publicationDate: string, authorName: string) => {
-    let authorId = await getAuthorIdByName(authorName);
-    if (!authorId) {
-      await createAuthor(authorName);
-      authorId = await getAuthorIdByName(authorName);
-    }
-
-    if (!authorId) {
-      console.error("Author ID is undefined");
-      return;
-    }
-
-    axios.post('http://localhost:3001/books', {
-      title,
-      publicationDate,
-      authorId: authorId.toString()
-    }).then(() => {
-      loadBooks();
-    }).catch((error) => {
-      console.error(error);
-    });
-
-    incrementAuthorBooksCount(authorId);
-
-    // Création temporaires de livres en attendant l'API
-    /*
-    const newBook: BookModel = {
-      id: books.length + 1,
-      title,
-      publicationDate: new Date(publicationDate).getFullYear(),
-      authorId: parseInt(author),
-      note: 0,
-      commentaire: "",
-      prix: 0,
-      description: ""
-    };
-    setBooks([...books, newBook]);*/
   };
 
   // Filtre les livres en fonction du terme de recherche
@@ -182,39 +73,24 @@ export default function Books() {
         onCancel={() => {
           setIsModalOpen(false);
           setTitle("");
-          setPublicationDate("");
           setAuthor("");
+          setPublicationDate("");
         }}
         onClose={() => {
           setIsModalOpen(false);
           setTitle("");
-          setPublicationDate("");
           setAuthor("");
+          setPublicationDate("");
         }}
         onOk={() => {
-          onCreate(title, publicationDate, author);
           setIsModalOpen(false);
           setTitle("");
-          setPublicationDate("");
           setAuthor("");
+          setPublicationDate("");
         }}
       >
-        <div>
-          <label>
-        Title:
-        <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
-          </label>
-          <label>
-        Publication Date:
-        <input type="date" value={publicationDate} onChange={(e) => setPublicationDate(e.target.value)} />
-          </label>
-          <label>
-        Author:
-        <input type="text" value={author} onChange={(e) => setAuthor(e.target.value)} />
-          </label>
-        </div>
+        <CreateBookForm onCreate={onCreate} />
       </Modal>
-
       <br />
       <SearchBarBook searchTerm={searchTerm} onSearchChange={handleSearchChange} />
       <SortBarBook
@@ -223,7 +99,7 @@ export default function Books() {
         onSortCriteriaChange={handleSortCriteriaChange}
         onSortOrderChange={handleSortOrderChange}
       />
-      {sortedBooks.map((book) => <BookCard key={book.id} book={book} authorName={book.authorName} />)}
+      {sortedBooks.map((book) => <BookCard key={book.id} book={book} authorName={book.authorName || 'Unknown Author'} />)}
     </div>
   );
 }
